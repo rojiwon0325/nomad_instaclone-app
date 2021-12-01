@@ -1,36 +1,36 @@
-/**
- * Learn more about deep linking with React Navigation
- * https://reactnavigation.org/docs/deep-linking
- * https://reactnavigation.org/docs/configuring-links
- */
-
 import { LinkingOptions } from '@react-navigation/native';
 import * as Linking from 'expo-linking';
 
-import { RootStackParamList } from '../types';
+import { AuthStackParamList } from 'types';
 
-const linking: LinkingOptions<RootStackParamList> = {
+const linking: LinkingOptions<AuthStackParamList> = {
   prefixes: [Linking.makeUrl('/')],
   config: {
     screens: {
       Root: {
         screens: {
-          TabOne: {
+          Home: {
             screens: {
-              TabOneScreen: 'one',
+              Main: 'main',
+              MyProfile: 'profile',
             },
           },
-          TabTwo: {
-            screens: {
-              TabTwoScreen: 'two',
-            },
-          },
+          Post: 'post',
+          Profile: 'profile',
+          NotFound: '*',
         },
       },
-      Modal: 'modal',
+      SignIn: 'signin',
+      SignUp: 'signup',
       NotFound: '*',
     },
   },
 };
 
 export default linking;
+
+/**
+ * Learn more about deep linking with React Navigation
+ * https://reactnavigation.org/docs/deep-linking
+ * https://reactnavigation.org/docs/configuring-links
+ */

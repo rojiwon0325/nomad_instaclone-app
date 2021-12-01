@@ -1,6 +1,30 @@
 {
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
-    "strict": true
-  }
+    "strict": true,
+    "baseUrl": ".",
+    "paths": {
+      "@components": [
+        "components"
+      ],
+      "@constants": [
+        "constants"
+      ],
+      "@hooks/*": [
+        "hooks/*"
+      ],
+      "@navigation": [
+        "navigation"
+      ],
+      "@screens": [
+        "screens"
+      ],
+    },
+  },
+  "exclud": [
+    "node_modules",
+    "babel.config.js",
+    "metro.config.js",
+    "jest.config.js"
+  ]
 }

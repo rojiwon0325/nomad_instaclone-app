@@ -9,13 +9,21 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 declare global {
   namespace ReactNavigation {
-    interface RootParamList extends RootStackParamList {}
+    interface RootParamList extends RootStackParamList { }
   }
 }
 
+export type AuthStackParamList = {
+  Root: NavigatorScreenParams<RootStackParamList> | undefined;
+  SignIn: undefined;
+  SignUp: undefined;
+  NotFound: undefined;
+};
+
 export type RootStackParamList = {
-  Root: NavigatorScreenParams<RootTabParamList> | undefined;
-  Modal: undefined;
+  Home: NavigatorScreenParams<HomeTabParamList> | undefined;
+  Post: undefined;
+  Profile: undefined;
   NotFound: undefined;
 };
 
@@ -24,12 +32,12 @@ export type RootStackScreenProps<Screen extends keyof RootStackParamList> = Nati
   Screen
 >;
 
-export type RootTabParamList = {
-  TabOne: undefined;
-  TabTwo: undefined;
+export type HomeTabParamList = {
+  Main: undefined;
+  MyProfile: undefined;
 };
 
-export type RootTabScreenProps<Screen extends keyof RootTabParamList> = CompositeScreenProps<
-  BottomTabScreenProps<RootTabParamList, Screen>,
+export type HomeTabScreenProps<Screen extends keyof HomeTabParamList> = CompositeScreenProps<
+  BottomTabScreenProps<HomeTabParamList, Screen>,
   NativeStackScreenProps<RootStackParamList>
 >;
