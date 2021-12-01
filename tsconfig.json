@@ -7,8 +7,8 @@
       "@components": [
         "components"
       ],
-      "@constants": [
-        "constants"
+      "@constants/*": [
+        "constants/*"
       ],
       "@hooks/*": [
         "hooks/*"

@@ -1,7 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import * as React from 'react';
-import { StyleSheet } from 'react-native';
-import { Text, View } from '../components/Themed';
+import { StyleSheet, Text, View } from 'react-native';
 import { AuthStackParamList } from 'types';
 
 export default function SignUpScreen({ navigation }: NativeStackScreenProps<AuthStackParamList>) {
@@ -10,7 +9,7 @@ export default function SignUpScreen({ navigation }: NativeStackScreenProps<Auth
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Sign Up</Text>
-            <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+            <View style={styles.separator} />
         </View>
     );
 }

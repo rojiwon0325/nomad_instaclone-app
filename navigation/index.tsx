@@ -1,14 +1,14 @@
-import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import * as React from 'react';
-import { ColorSchemeName } from 'react-native';
 import LinkingConfiguration from './LinkingConfiguration';
 import AuthNavigator from './AuthStack';
+import { CustomTheme } from 'constants/theme';
 
-export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
+export default function Navigation({ theme }: { theme: CustomTheme }) {
   return (
     <NavigationContainer
       linking={LinkingConfiguration}
-      theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+      theme={theme}>
       <AuthNavigator />
     </NavigationContainer>
   );
