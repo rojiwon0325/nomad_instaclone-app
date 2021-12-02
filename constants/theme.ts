@@ -1,46 +1,31 @@
+import { DefaultTheme } from "styled-components/native";
 
-const YELLOW: string = "#ffa801";
-const BLACK: string = "#1e272e";
-const LIGHT_BLACK: string = "rgba(30,39,46, 0.8)";
-const WHITE: string = "rgb(242,242,242)";
+const primary = "rgb(0,149,253)";
+const notification = "rgb(237, 73, 86)";
 
-export interface CustomTheme {
-    dark: boolean;
-    colors: {
-        primary: string;
-        background: string;
-        subbackground: string;
-        card: string;
-        text: string;
-        subtext: string;
-        border: string;
-        notification: string;
-    }
-}
-
-export const DarkTheme: CustomTheme = {
+export const DarkTheme: DefaultTheme = {
     dark: true,
     colors: {
-        primary: YELLOW,
-        background: BLACK,
-        subbackground: BLACK,
-        card: 'rgb(18, 18, 18)',
-        text: WHITE,
-        subtext: "rgba(242,242,242,0.8)",
-        border: 'rgb(39, 39, 41)',
-        notification: 'rgb(255, 69, 58)',
+        primary,
+        background: "rgb(0,0,0)",
+        bar: "rgb(15,15,15)",
+        card: "rgb(15,15,15)",
+        text: "rgb(255,255,255)",
+        subtext: "rgb(217,217,217)",
+        border: 'rgb(36, 36, 36)',
+        notification,
     },
 }
-export const DefaultTheme: CustomTheme = {
+export const LightTheme: DefaultTheme = {
     dark: false,
     colors: {
-        primary: YELLOW,
-        background: 'rgb(255, 255, 255)',
-        subbackground: 'rgb(255, 255, 255)',
-        card: WHITE,
-        text: BLACK,
-        subtext: LIGHT_BLACK,
-        border: 'rgb(216, 216, 216)',
-        notification: 'rgb(255, 59, 48)',
+        primary,
+        background: "rgb(250,250,250)",
+        bar: "rgb(255,255,255)",
+        card: "rgb(255,255,255)",
+        text: "rgb(0,0,0)",
+        subtext: "rgb(38,38,38)",
+        border: "rgb(219,219,219)",
+        notification,
     },
 }

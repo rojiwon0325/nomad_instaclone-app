@@ -1,32 +1,51 @@
+import React, { useRef } from 'react';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import * as React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
 import { AuthStackParamList } from 'types';
+import styled from 'styled-components/native';
+import { AuthInput, AuthLayout, BlueBtn, Logo } from '@components';
+import { TextInput } from 'react-native';
 
-export default function SignUpScreen({ navigation }: NativeStackScreenProps<AuthStackParamList>) {
-
+export default function SignInScreen({ navigation }: NativeStackScreenProps<AuthStackParamList>) {
+    const next = useRef<TextInput>(null);
+    const last = useRef<TextInput>(null);
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.title}>Sign Up</Text>
-            <View style={styles.separator} />
-        </View>
-    );
-}
+        <AuthLayout>
+            <LogoWrap>
+                <Logo />
+            </LogoWrap>
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    title: {
-        fontSize: 20,
-        fontWeight: 'bold',
-    },
-    separator: {
-        marginVertical: 30,
-        height: 1,
-        width: '80%',
-    },
-});
+            <AuthInput placeholder="사용자 계정"
+                autoFocus
+                placeholderTextColor={"rgb(142,142,142)"}
+                returnKeyType="next"
+                onSubmitEditing={() => next?.current?.focus()}
+            />
+            <AuthInput placeholder="사용자 이릅"
+                ref={next}
+                placeholderTextColor={"rgb(142,142,142)"}
+                returnKeyType="next"
+                onSubmitEditing={() => last?.current?.focus()}
+            />
+            <AuthInput placeholder="비밀번호"
+                ref={last}
+                placeholderTextColor={"rgb(142,142,142)"}
+                secureTextEntry
+                returnKeyType="done"
+            />
+            <Margin />
+            <BlueBtn onPress={() => navigation.navigate("SignIn")}>
+                회원가입
+            </BlueBtn>
+        </AuthLayout>
+    );
+};
+
+const LogoWrap = styled.View`
+    width: 100%;
+    height: 70px;
+    margin-bottom: 30px;
+`;
+const Margin = styled.View`
+    height: 20px;
+`;

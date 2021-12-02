@@ -4,23 +4,23 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { HomeTabParamList } from "types";
 import { MainScreen, ProfileScreen } from '@screens';
 
-const BottomTab = createBottomTabNavigator<HomeTabParamList>();
+const Tab = createBottomTabNavigator<HomeTabParamList>();
 
 export default function HomeTabNavigator() {
     const tabBarIcon = ({ color }: { color: string }) => <TabBarIcon name="code" color={color} />;
     return (
-        <BottomTab.Navigator initialRouteName="Main">
-            <BottomTab.Screen
+        <Tab.Navigator initialRouteName="Main">
+            <Tab.Screen
                 name="Main"
                 component={MainScreen}
                 options={{ title: 'Main', tabBarIcon, }}
             />
-            <BottomTab.Screen
+            <Tab.Screen
                 name="MyProfile"
                 component={ProfileScreen}
-                options={{ title: 'Profile', tabBarIcon, }}
+                options={{ title: 'MyProfile', tabBarIcon, }}
             />
-        </BottomTab.Navigator>
+        </Tab.Navigator>
     );
 }
 /**

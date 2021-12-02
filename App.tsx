@@ -1,4 +1,4 @@
-import { DarkTheme, DefaultTheme } from 'constants/theme';
+import { DarkTheme, LightTheme } from 'constants/theme';
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -17,11 +17,11 @@ export default function App() {
   } else {
     return (
       <SafeAreaProvider>
-        <ThemeProvider theme={isDark ? DarkTheme : DefaultTheme}>
-          <Navigation theme={isDark ? DarkTheme : DefaultTheme} />
+        <ThemeProvider theme={isDark ? DarkTheme : LightTheme}>
+          <Navigation theme={isDark ? DarkTheme : LightTheme} />
           <StatusBar />
         </ThemeProvider>
       </SafeAreaProvider>
     );
   }
-}
+};

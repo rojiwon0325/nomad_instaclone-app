@@ -2,9 +2,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import * as React from 'react';
 import LinkingConfiguration from './LinkingConfiguration';
 import AuthNavigator from './AuthStack';
-import { CustomTheme } from 'constants/theme';
+import { DefaultTheme } from 'styled-components/native';
 
-export default function Navigation({ theme }: { theme: CustomTheme }) {
+export default function Navigation({ theme }: { theme: DefaultTheme }) {
   return (
     <NavigationContainer
       linking={LinkingConfiguration}

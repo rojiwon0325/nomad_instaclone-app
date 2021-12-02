@@ -11,7 +11,6 @@ export default function RootNavigator() {
   return (
     <Stack.Navigator>
       <Stack.Screen name="Home" component={HomeTabNavigator} options={{ headerShown: true }} />
-      <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
       <Stack.Group screenOptions={{ presentation: 'card' }}>
         <Stack.Screen name="Post" component={ModalScreen} />
         <Stack.Screen name="Profile" component={ModalScreen} />
