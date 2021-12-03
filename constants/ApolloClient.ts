@@ -14,6 +14,7 @@ export const login = async (token: string) => {
 
 export const logout = async () => {
     await AsyncStorage.removeItem(TOKEN);
+    await AsyncStorage.clear();
     jwToken(null);
     isLogin(false);
 };
@@ -32,25 +33,29 @@ const auth = setContext((_, { headers }) => {
 });
 
 
-const client = new ApolloClient({
-    link: auth.concat(httpLink),
-    cache: new InMemoryCache({
-        typePolicies: {
-            User: {
-                keyFields: (obj) => `${obj.__typename}:${obj.account}`,
-            },
-            Query: {
-                fields: {
-                    seePost: {
-                        keyArgs: ["id", "account"],
-                        merge: (exi = [], inc = []) => [...exi, ...inc]
-                    }
+export const cache = new InMemoryCache({
+    typePolicies: {
+        User: {
+            keyFields: (obj) => `${obj.__typename}:${obj.account}`,
+        },
+        Query: {
+            fields: {
+                seePost: {
+                    keyArgs: ["id", "account"],
+                    merge: (exi = [], inc = []) => [...exi, ...inc]
                 }
             }
-
         }
-    }),
+
+    }
 });
+
+const client = new ApolloClient({
+    link: auth.concat(httpLink),
+    cache
+});
+
+
 
 export default client;
 

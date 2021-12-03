@@ -16,7 +16,7 @@ export default function HomeTabNavigator({ navigation }: RootStackScreenProps<"H
             <Tab.Screen
                 name="Main"
                 component={MainScreen}
-                options={{ headerRightContainerStyle: { paddingRight: 10 }, headerRight: () => <Avatar onPress={logout} avatarUrl={""} />, headerLeft: () => <LogoWrap><Logo /></LogoWrap>, tabBarIcon: (props) => <TabBarIcon name='home' props={props} /> }}
+                options={{ headerLeft: () => <LogoWrap><Logo /></LogoWrap>, headerRightContainerStyle: { paddingRight: 10 }, headerRight: () => <Avatar onPress={logout} avatarUrl={""} />, tabBarIcon: (props) => <TabBarIcon name='home' props={props} /> }}
             />
             <Tab.Screen
                 name="Search"

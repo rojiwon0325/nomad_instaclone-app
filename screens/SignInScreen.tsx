@@ -6,7 +6,7 @@ import { TextInput } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import { useMutation } from '@apollo/client';
 import { LOGIN_MUTATION } from '@constants/query/account';
-import { login as setLogin } from '@constants/ApolloClient';
+import { login as setLogin, logout } from '@constants/ApolloClient';
 import { login } from '@Igql/login';
 
 export default function SignInScreen({ navigation, route }: AuthStackScreenProps<"SignIn">) {
@@ -25,6 +25,7 @@ export default function SignInScreen({ navigation, route }: AuthStackScreenProps
         },
     });
     useEffect(() => {
+        logout();
         reset(params);
     }, [params]);
 

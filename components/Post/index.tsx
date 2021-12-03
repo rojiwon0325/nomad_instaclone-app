@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import Swiper from 'react-native-swiper';
 import styled from 'styled-components/native';
 import { ApolloQueryResult, OperationVariables } from '@apollo/client';
 import { seePost, seePost_seePost } from '@Igql/seePost';
 import Avatar from '../Avatar';
 import User from "../User";
-import { useWindowDimensions, View } from 'react-native';
+import { Platform, useWindowDimensions, View } from 'react-native';
 import Buttons from './Buttons';
+
+const Swiper = Platform.OS !== "web" ? require("react-native-swiper") : null;
 
 const Post: React.FC<{
     data: seePost_seePost,
@@ -29,9 +30,10 @@ const Post: React.FC<{
                 <User account={account} />
             </Row>
             <View style={{ width: WIDTH, height: WIDTH }}>
-                <Swiper loop={false} showsButtons={true} horizontal showsPagination={true} dotStyle={{ backgroundColor: "gray" }} paginationStyle={{ position: "absolute", bottom: -30 }}>
-                    {photo.map((uri, idx) => <Photo key={idx} source={{ uri }} />)}
-                </Swiper>
+                {Platform.OS === "web" ? <Photo source={{ uri: photo[0] }} /> :
+                    <Swiper loop={false} showsButtons={true} horizontal showsPagination={true} dotStyle={{ backgroundColor: "gray" }} paginationStyle={{ position: "absolute", bottom: -30 }}>
+                        {photo.map((uri, idx) => <Photo key={"Photo:" + idx} source={{ uri }} />)}
+                    </Swiper>}
             </View>
             <Controls>
                 <Row>

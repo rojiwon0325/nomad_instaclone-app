@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
-import { createNativeStackNavigator, NativeStackScreenProps } from '@react-navigation/native-stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ModalScreen } from '@screens';
-import { AuthStackParamList, RootStackParamList } from 'types';
+import { AuthStackScreenProps, RootStackParamList } from 'types';
 import HomeTabNavigator from './HomeTab';
 import { useQuery, useReactiveVar } from '@apollo/client';
 import { getMe } from '@Igql/getMe';
@@ -11,11 +11,12 @@ import { jwToken } from '@constants/ApolloClient';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
-export default function RootNavigator({ navigation }: NativeStackScreenProps<AuthStackParamList, "Root">) {
+export default function RootNavigator({ navigation }: AuthStackScreenProps<"Root">) {
   const token = useReactiveVar(jwToken);
   const { data, loading } = useQuery<getMe>(GETME_QUERY, { skip: token === null });
   useEffect(() => {
     if (token === null || (data && data.getMe === null)) {
+      //console.log("token:", token);
       navigation.navigate("SignIn");
     }
     if (data?.getMe) {

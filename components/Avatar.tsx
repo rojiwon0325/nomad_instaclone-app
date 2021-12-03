@@ -15,7 +15,7 @@ const Avatar: React.FC<{ avatarUrl: string, onPress?: ((event: GestureResponderE
 const Container = styled.TouchableOpacity`
     background-color: "rgba(0,0,0,0)";
     aspect-ratio: 1;
-    border-radius: 50px;
+    border-radius: 1000px;
     height: 70%;
     align-items: center;
     justify-content: center;
