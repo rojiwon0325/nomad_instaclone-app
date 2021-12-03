@@ -6,9 +6,12 @@ import { FlatList } from 'react-native';
 import { Post } from '@components';
 
 export default function MainScreen() {
-    const { data, refetch } = useQuery<seePost>(SEEPOST_QUERY);
+    const { data, loading, refetch, fetchMore } = useQuery<seePost>(SEEPOST_QUERY);
     return (
         <FlatList<seePost_seePost>
+            refreshing={loading}
+            onRefresh={() => refetch()}
+            onEndReached={() => fetchMore({ variables: { offset: data?.seePost?.length ?? 0 } })}
             initialScrollIndex={0}
             data={data?.seePost ?? []}
             contentContainerStyle={{ width: "100%" }}

@@ -38,7 +38,16 @@ const client = new ApolloClient({
         typePolicies: {
             User: {
                 keyFields: (obj) => `${obj.__typename}:${obj.account}`,
+            },
+            Query: {
+                fields: {
+                    seePost: {
+                        keyArgs: ["id", "account"],
+                        merge: (exi = [], inc = []) => [...exi, ...inc]
+                    }
+                }
             }
+
         }
     }),
 });

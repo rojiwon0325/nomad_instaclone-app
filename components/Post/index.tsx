@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Swiper from 'react-native-swiper';
 import styled from 'styled-components/native';
 import { ApolloQueryResult, OperationVariables } from '@apollo/client';
 import { seePost, seePost_seePost } from '@Igql/seePost';
 import Avatar from '../Avatar';
 import User from "../User";
-import { Dimensions, View } from 'react-native';
+import { useWindowDimensions, View } from 'react-native';
 import Buttons from './Buttons';
 
 const Post: React.FC<{
@@ -13,9 +13,8 @@ const Post: React.FC<{
     refetch: (variables?: Partial<OperationVariables> | undefined) => Promise<ApolloQueryResult<seePost>>
 }> = ({ data: { id, photo, detail, _count }, refetch }) => {
     const [captionSlice, setSlice] = useState(2);
-    const WIDTH = Dimensions.get("window").width;
+    const WIDTH = useWindowDimensions().width;
     if (detail === null || _count === null) {
-        //refetch({ id });
         return null;
     }
     const { account, avatarUrl, caption, createdAt, isLiked } = detail;

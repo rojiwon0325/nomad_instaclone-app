@@ -51,9 +51,3 @@ const LogoWrap = styled.View`
     width: 80%;
     height: 100%;
 `;
-
-const Temp = styled.TouchableOpacity`
-    width: 80%;
-    height: 100%;
-    background-color: red;
-`;

@@ -40,6 +40,7 @@
     "react-native-safe-area-context": "3.3.2",
     "react-native-screens": "~3.8.0",
     "react-native-swiper": "^1.6.0",
+    "react-native-swiper-flatlist": "^3.0.16",
     "react-native-web": "0.17.1",
     "recoil": "^0.5.2",
     "styled-components": "^5.3.3"

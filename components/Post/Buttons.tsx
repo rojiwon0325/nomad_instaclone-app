@@ -38,10 +38,7 @@ const Buttons: React.FC<{ isLiked: boolean, id: number }> = ({ isLiked, id }) =>
             }
         }
     });
-    const ClickHeart = () => {
-        if (loadingLike || loadingUnLike) { return; }
-        return isLiked ? doUnLike() : doLike();
-    };
+
     return (
         <>
             <Btn activeOpacity={1} onPress={() => {
