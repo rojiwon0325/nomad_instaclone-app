@@ -1,3 +1,4 @@
+import { login } from '@constants/ApolloClient';
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
 import { useAsyncStorage } from '@react-native-async-storage/async-storage';
 import * as Font from 'expo-font';
@@ -6,8 +7,7 @@ import * as React from 'react';
 
 export default function useCachedResources() {
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
-  const [isLogin, setLogin] = React.useState(false);
-  const storage = useAsyncStorage('isLogin');
+  const storage = useAsyncStorage('jwt');
 
   // Load any resources or data that we need prior to rendering the app
   React.useEffect(() => {
@@ -21,8 +21,10 @@ export default function useCachedResources() {
           ...Ionicons.font,
           'space-mono': require('../assets/fonts/SpaceMono-Regular.ttf'),
         });
-        const login = await storage.getItem();
-        setLogin(login !== null);
+        const token = await storage.getItem();
+        if (token) {
+          login(token)
+        }
       } catch (e) {
         // We might want to provide this error information to an error reporting service
         console.warn(e);
@@ -35,5 +37,5 @@ export default function useCachedResources() {
     loadResourcesAndDataAsync();
   }, []);
 
-  return [isLoadingComplete, isLogin];
+  return isLoadingComplete;
 }

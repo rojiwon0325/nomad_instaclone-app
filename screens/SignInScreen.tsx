@@ -1,27 +1,22 @@
 import React, { useEffect, useRef } from 'react';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { AuthStackParamList } from 'types';
+import { AuthStackScreenProps } from 'types';
 import styled from 'styled-components/native';
 import { AuthInput, AuthLayout, BlueBtn, BlueLink, Logo } from '@components';
 import { TextInput } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import { useMutation } from '@apollo/client';
 import { LOGIN_MUTATION } from '@constants/query/account';
-import { login } from 'Igql/login';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useSetRecoilState } from 'recoil';
-import { isLogin } from '@constants/recoil';
+import { login as setLogin } from '@constants/ApolloClient';
+import { login } from '@Igql/login';
 
-export default function SignInScreen({ navigation, route }: NativeStackScreenProps<AuthStackParamList, "SignIn">) {
+export default function SignInScreen({ navigation, route }: AuthStackScreenProps<"SignIn">) {
     const last = useRef<TextInput>(null);
-    const setLogin = useSetRecoilState(isLogin);
     const { params } = route;
     const { control, handleSubmit, formState: { isValid, errors }, reset } = useForm<{ account: string, password: string }>({ mode: "onChange" });
     const [login, { loading }] = useMutation<login>(LOGIN_MUTATION, {
         onCompleted: async ({ login: { ok, error, token } }) => {
             if (ok && token) {
-                await AsyncStorage.multiSet([['jwt', token], ['isLogin', 'true']]);
-                setLogin(true);
+                await setLogin(token);
                 navigation.navigate("Root");
             } else {
                 console.log(error);

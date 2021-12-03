@@ -12,6 +12,7 @@ const linking: LinkingOptions<AuthStackParamList> = {
           Home: {
             screens: {
               Main: 'main',
+              Search: 'search',
               MyProfile: 'myprofile',
             },
           },

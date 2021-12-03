@@ -3,13 +3,15 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SignInScreen, SignUpScreen } from '@screens';
 import { AuthStackParamList } from 'types';
 import RootNavigator from './RootStack';
+import { isLogin } from '@constants/ApolloClient';
 
 
 const Stack = createNativeStackNavigator<AuthStackParamList>();
 
-export default function AuthNavigator({ isLogin }: { isLogin: boolean }) {
+export default function AuthNavigator() {
+  const login = isLogin();
   return (
-    <Stack.Navigator initialRouteName={isLogin ? "Root" : "SignIn"} screenOptions={{ headerShown: false }}>
+    <Stack.Navigator initialRouteName={login ? "Root" : "SignIn"} screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Root" component={RootNavigator} />
       <Stack.Screen name="SignIn" component={SignInScreen} />
       <Stack.Screen name="NotFound" component={SignInScreen} />

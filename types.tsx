@@ -20,6 +20,11 @@ export type AuthStackParamList = {
   NotFound: undefined;
 };
 
+export type AuthStackScreenProps<Screen extends keyof AuthStackParamList> = NativeStackScreenProps<
+  AuthStackParamList,
+  Screen
+>;
+
 export type RootStackParamList = {
   Home: NavigatorScreenParams<HomeTabParamList> | undefined;
   Post: undefined;
@@ -33,6 +38,8 @@ export type RootStackScreenProps<Screen extends keyof RootStackParamList> = Nati
 
 export type HomeTabParamList = {
   Main: undefined;
+  Search: undefined;
+  NewPost: undefined;
   MyProfile: undefined;
 };
 

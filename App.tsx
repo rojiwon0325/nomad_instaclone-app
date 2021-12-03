@@ -10,7 +10,7 @@ import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation';
 
 export default function App() {
-  const [isLoadingComplete, isLogin] = useCachedResources();
+  const isLoadingComplete = useCachedResources();
   const isDark = useColorScheme() === "dark";
 
   if (!isLoadingComplete) {
@@ -20,7 +20,7 @@ export default function App() {
       <SafeAreaProvider>
         <Providers>
           <ThemeProvider theme={isDark ? DarkTheme : LightTheme}>
-            <Navigation theme={isDark ? DarkTheme : LightTheme} isLogin={isLogin} />
+            <Navigation theme={isDark ? DarkTheme : LightTheme} />
             <StatusBar />
           </ThemeProvider>
         </Providers>

@@ -3,22 +3,31 @@ import { createNativeStackNavigator, NativeStackScreenProps } from '@react-navig
 import { ModalScreen } from '@screens';
 import { AuthStackParamList, RootStackParamList } from 'types';
 import HomeTabNavigator from './HomeTab';
-import { useRecoilValue } from 'recoil';
-import { isLogin } from '@constants/recoil';
+import { useQuery, useReactiveVar } from '@apollo/client';
+import { getMe } from '@Igql/getMe';
+import { GETME_QUERY } from '@constants/query/account';
+import { jwToken } from '@constants/ApolloClient';
 
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function RootNavigator({ navigation }: NativeStackScreenProps<AuthStackParamList, "Root">) {
-  const login = useRecoilValue(isLogin);
+  const token = useReactiveVar(jwToken);
+  const { data, loading } = useQuery<getMe>(GETME_QUERY, { skip: token === null });
   useEffect(() => {
-    if (!login) {
+    if (token === null || (data && data.getMe === null)) {
       navigation.navigate("SignIn");
     }
-  }, [login]);
+    if (data?.getMe) {
+      console.log(data.getMe);
+    }
+  }, [token, data]);
+  if (loading) {
+    return null;
+  }
   return (
-    <Stack.Navigator initialRouteName="Home">
-      <Stack.Screen name="Home" component={HomeTabNavigator} options={{ headerShown: true }} />
+    <Stack.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Home" component={HomeTabNavigator} />
       <Stack.Group screenOptions={{ presentation: 'card' }}>
         <Stack.Screen name="Post" component={ModalScreen} />
         <Stack.Screen name="Profile" component={ModalScreen} />
