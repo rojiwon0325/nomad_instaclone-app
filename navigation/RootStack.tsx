@@ -19,7 +19,7 @@ export default function RootNavigator({ navigation }: NativeStackScreenProps<Aut
       navigation.navigate("SignIn");
     }
     if (data?.getMe) {
-      console.log(data.getMe);
+      //console.log(data.getMe);
     }
   }, [token, data]);
   if (loading) {

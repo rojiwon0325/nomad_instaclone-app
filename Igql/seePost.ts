@@ -56,4 +56,5 @@ export interface seePost {
 export interface seePostVariables {
   id?: number | null;
   offset?: number | null;
+  account?: string | null;
 }

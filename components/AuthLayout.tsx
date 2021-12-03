@@ -6,7 +6,7 @@ const AuthLayout: React.FC = ({ children }) => {
 
     return (
         <Layout disabled={Platform.OS === "web"} onPress={() => Keyboard.dismiss()} activeOpacity={1}>
-            <Container behavior="padding" keyboardVerticalOffset={Platform.OS === 'ios' ? 50 : 0}>
+            <Container behavior="padding" keyboardVerticalOffset={Platform.OS === 'ios' ? 50 : 50}>
                 {children}
             </Container>
         </Layout >

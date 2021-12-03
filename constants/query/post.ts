@@ -42,8 +42,8 @@ export const FEED_FRAGMENT = gql`
 `;
 
 export const SEEPOST_QUERY = gql`
-    query seePost($id:Int $offset:Int){
-        seePost(id:$id offset:$offset){
+    query seePost($id:Int $offset:Int $account:String){
+        seePost(id:$id offset:$offset account:$account){
             ...Feed
             detail{
                 ...Post_detail
