@@ -1,17 +1,21 @@
 import React, { useEffect } from 'react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createNativeStackNavigator, NativeStackScreenProps } from '@react-navigation/native-stack';
 import { ModalScreen } from '@screens';
-import { RootStackParamList } from 'types';
+import { AuthStackParamList, RootStackParamList } from 'types';
 import HomeTabNavigator from './HomeTab';
+import { useRecoilValue } from 'recoil';
+import { isLogin } from '@constants/recoil';
 
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
-export default function RootNavigator() {
-  const isLogin = useRecoilValue();
+export default function RootNavigator({ navigation }: NativeStackScreenProps<AuthStackParamList, "Root">) {
+  const login = useRecoilValue(isLogin);
   useEffect(() => {
-
-  }, []);
+    if (!login) {
+      navigation.navigate("SignIn");
+    }
+  }, [login]);
   return (
     <Stack.Navigator initialRouteName="Home">
       <Stack.Screen name="Home" component={HomeTabNavigator} options={{ headerShown: true }} />

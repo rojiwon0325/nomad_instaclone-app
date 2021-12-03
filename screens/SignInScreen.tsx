@@ -9,15 +9,19 @@ import { useMutation } from '@apollo/client';
 import { LOGIN_MUTATION } from '@constants/query/account';
 import { login } from 'Igql/login';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useSetRecoilState } from 'recoil';
+import { isLogin } from '@constants/recoil';
 
 export default function SignInScreen({ navigation, route }: NativeStackScreenProps<AuthStackParamList, "SignIn">) {
     const last = useRef<TextInput>(null);
+    const setLogin = useSetRecoilState(isLogin);
     const { params } = route;
     const { control, handleSubmit, formState: { isValid, errors }, reset } = useForm<{ account: string, password: string }>({ mode: "onChange" });
     const [login, { loading }] = useMutation<login>(LOGIN_MUTATION, {
         onCompleted: async ({ login: { ok, error, token } }) => {
             if (ok && token) {
                 await AsyncStorage.multiSet([['jwt', token], ['isLogin', 'true']]);
+                setLogin(true);
                 navigation.navigate("Root");
             } else {
                 console.log(error);
