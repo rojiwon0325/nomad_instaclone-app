@@ -1,3 +1,4 @@
+import Providers from 'components/Providers';
 import { DarkTheme, LightTheme } from 'constants/theme';
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
@@ -9,7 +10,7 @@ import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation';
 
 export default function App() {
-  const isLoadingComplete = useCachedResources();
+  const [isLoadingComplete, isLogin] = useCachedResources();
   const isDark = useColorScheme() === "dark";
 
   if (!isLoadingComplete) {
@@ -17,10 +18,12 @@ export default function App() {
   } else {
     return (
       <SafeAreaProvider>
-        <ThemeProvider theme={isDark ? DarkTheme : LightTheme}>
-          <Navigation theme={isDark ? DarkTheme : LightTheme} />
-          <StatusBar />
-        </ThemeProvider>
+        <Providers>
+          <ThemeProvider theme={isDark ? DarkTheme : LightTheme}>
+            <Navigation theme={isDark ? DarkTheme : LightTheme} isLogin={isLogin} />
+            <StatusBar />
+          </ThemeProvider>
+        </Providers>
       </SafeAreaProvider>
     );
   }

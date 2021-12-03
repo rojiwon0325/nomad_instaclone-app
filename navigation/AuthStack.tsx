@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SignInScreen, SignUpScreen } from '@screens';
 import { AuthStackParamList } from 'types';
@@ -7,10 +7,10 @@ import RootNavigator from './RootStack';
 
 const Stack = createNativeStackNavigator<AuthStackParamList>();
 
-export default function AuthNavigator() {
+export default function AuthNavigator({ isLogin }: { isLogin: boolean }) {
   return (
-    <Stack.Navigator initialRouteName="SignIn" screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Root" component={RootNavigator} options={{ headerShown: false }} />
+    <Stack.Navigator initialRouteName={isLogin ? "Root" : "SignIn"} screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Root" component={RootNavigator} />
       <Stack.Screen name="SignIn" component={SignInScreen} />
       <Stack.Screen name="NotFound" component={SignInScreen} />
       <Stack.Screen name="SignUp" component={SignUpScreen} options={{ presentation: "card" }} />

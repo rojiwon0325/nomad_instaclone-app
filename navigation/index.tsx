@@ -1,15 +1,15 @@
 import { NavigationContainer } from '@react-navigation/native';
-import * as React from 'react';
+import React from 'react';
 import LinkingConfiguration from './LinkingConfiguration';
 import AuthNavigator from './AuthStack';
 import { DefaultTheme } from 'styled-components/native';
 
-export default function Navigation({ theme }: { theme: DefaultTheme }) {
+export default function Navigation({ theme, isLogin }: { theme: DefaultTheme, isLogin: boolean }) {
   return (
     <NavigationContainer
       linking={LinkingConfiguration}
       theme={theme}>
-      <AuthNavigator />
+      <AuthNavigator isLogin={isLogin} />
     </NavigationContainer>
   );
 }

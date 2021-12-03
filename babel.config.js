@@ -12,6 +12,7 @@ module.exports = function (api) {
             "@components": "./components",
             "@constants": "./constants",
             "@hooks": "./hooks",
+            "@Igql": "./Igql",
             "@navigation": "./navigation",
             "@screens": "./screens",
           }

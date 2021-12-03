@@ -15,7 +15,7 @@ declare global {
 
 export type AuthStackParamList = {
   Root: NavigatorScreenParams<RootStackParamList> | undefined;
-  SignIn: undefined;
+  SignIn: { account: string, password: string } | undefined;
   SignUp: undefined;
   NotFound: undefined;
 };

@@ -1,15 +1,34 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { AuthStackParamList } from 'types';
 import styled from 'styled-components/native';
 import { AuthInput, AuthLayout, BlueBtn, BlueLink, Logo } from '@components';
 import { TextInput } from 'react-native';
-import { useForm, Controller, SubmitHandler } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
+import { useMutation } from '@apollo/client';
+import { LOGIN_MUTATION } from '@constants/query/account';
+import { login } from 'Igql/login';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function SignInScreen({ navigation }: NativeStackScreenProps<AuthStackParamList>) {
+export default function SignInScreen({ navigation, route }: NativeStackScreenProps<AuthStackParamList, "SignIn">) {
     const last = useRef<TextInput>(null);
-    const { control, handleSubmit, formState: { isValid } } = useForm<{ account: string, password: string }>({ mode: "onChange" });
-    const onSubmit: SubmitHandler<{ account: string, password: string }> = (data) => { console.log(data) };
+    const { params } = route;
+    const { control, handleSubmit, formState: { isValid, errors }, reset } = useForm<{ account: string, password: string }>({ mode: "onChange" });
+    const [login, { loading }] = useMutation<login>(LOGIN_MUTATION, {
+        onCompleted: async ({ login: { ok, error, token } }) => {
+            if (ok && token) {
+                await AsyncStorage.multiSet([['jwt', token], ['isLogin', 'true']]);
+                navigation.navigate("Root");
+            } else {
+                console.log(error);
+                //error message 창 만들것
+            }
+        },
+    });
+    useEffect(() => {
+        reset(params);
+    }, [params]);
+
     return (
         <AuthLayout>
             <LogoWrap>
@@ -22,6 +41,8 @@ export default function SignInScreen({ navigation }: NativeStackScreenProps<Auth
                 render={({ field: { onChange, onBlur, value } }) => (
                     <AuthInput placeholder="사용자 계정"
                         autoFocus
+                        autoCapitalize={"none"}
+                        autoCorrect={false}
                         placeholderTextColor={"rgb(142,142,142)"}
                         returnKeyType="next"
                         onSubmitEditing={() => last?.current?.focus()}
@@ -39,16 +60,19 @@ export default function SignInScreen({ navigation }: NativeStackScreenProps<Auth
                     <AuthInput placeholder="비밀번호"
                         ref={last}
                         secureTextEntry
+                        autoCapitalize={"none"}
+                        autoCorrect={false}
                         placeholderTextColor={"rgb(142,142,142)"}
                         returnKeyType="done"
                         value={value}
+                        defaultValue={value}
                         onChangeText={onChange}
                         onBlur={onBlur}
                     />
                 )}
             />
             <Margin />
-            <BlueBtn disabled={!isValid} loading={false} onPress={handleSubmit(onSubmit)}>
+            <BlueBtn disabled={!isValid || loading} loading={loading} onPress={handleSubmit(variables => loading ? null : login({ variables }))}>
                 로그인
             </BlueBtn>
             <Margin />

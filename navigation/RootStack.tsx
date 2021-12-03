@@ -1,6 +1,6 @@
-import * as React from 'react';
+import React, { useEffect } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { NotFoundScreen, ModalScreen } from '@screens';
+import { ModalScreen } from '@screens';
 import { RootStackParamList } from 'types';
 import HomeTabNavigator from './HomeTab';
 
@@ -8,8 +8,12 @@ import HomeTabNavigator from './HomeTab';
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function RootNavigator() {
+  const isLogin = useRecoilValue();
+  useEffect(() => {
+
+  }, []);
   return (
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName="Home">
       <Stack.Screen name="Home" component={HomeTabNavigator} options={{ headerShown: true }} />
       <Stack.Group screenOptions={{ presentation: 'card' }}>
         <Stack.Screen name="Post" component={ModalScreen} />

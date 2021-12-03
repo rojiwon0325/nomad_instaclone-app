@@ -13,6 +13,9 @@
       "@hooks/*": [
         "hooks/*"
       ],
+      "@Igql/*": [
+        "Igql/*"
+      ],
       "@navigation": [
         "navigation"
       ],
