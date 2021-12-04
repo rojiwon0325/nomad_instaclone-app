@@ -9,10 +9,7 @@ import Buttons from './Buttons';
 
 const Swiper = Platform.OS !== "web" ? require("react-native-swiper") : null;
 
-const Post: React.FC<{
-    data: seePost_seePost,
-    refetch: (variables?: Partial<OperationVariables> | undefined) => Promise<ApolloQueryResult<seePost>>
-}> = ({ data: { id, photo, detail, _count }, refetch }) => {
+const Post: React.FC<{ data: seePost_seePost }> = ({ data: { id, photo, detail, _count } }) => {
     const [captionSlice, setSlice] = useState(2);
     const WIDTH = useWindowDimensions().width;
     if (detail === null || _count === null) {
@@ -25,13 +22,15 @@ const Post: React.FC<{
     return (
         <Container>
             <Row style={{ paddingLeft: 10 }}>
-                <Avatar avatarUrl={avatarUrl} />
+                <AvatarWrap>
+                    <Avatar avatarUrl={avatarUrl} account={account} />
+                </AvatarWrap>
                 <MarginH size="10px" />
                 <User account={account} />
             </Row>
             <View style={{ width: WIDTH, height: WIDTH }}>
                 {Platform.OS === "web" ? <Photo source={{ uri: photo[0] }} /> :
-                    <Swiper loop={false} showsButtons={true} horizontal showsPagination={true} dotStyle={{ backgroundColor: "gray" }} paginationStyle={{ position: "absolute", bottom: -30 }}>
+                    <Swiper loop={false} autoplayTimeout={0.1} showsButtons={true} horizontal showsPagination={true} dotStyle={{ backgroundColor: "gray" }} paginationStyle={{ position: "absolute", bottom: -30 }}>
                         {photo.map((uri, idx) => <Photo key={"Photo:" + idx} source={{ uri }} />)}
                     </Swiper>}
             </View>
@@ -60,6 +59,7 @@ const Post: React.FC<{
         </Container>
     );
 };
+
 const MoreBtn = styled.TouchableOpacity`
     height: 14px;
 `;
@@ -103,6 +103,10 @@ const Photo = styled.Image`
 
 const MarginV = styled.View<{ size: string }>`
     height: ${({ size }) => size};
+`;
+
+const AvatarWrap = styled.View`
+    height: 80%;
 `;
 
 const MarginH = styled.View<{ size: string }>`

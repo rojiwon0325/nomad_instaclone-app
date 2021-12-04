@@ -27,8 +27,9 @@ export type AuthStackScreenProps<Screen extends keyof AuthStackParamList> = Nati
 
 export type RootStackParamList = {
   Home: NavigatorScreenParams<HomeTabParamList> | undefined;
-  Post: undefined;
-  Profile: undefined;
+  Like: { id: number };
+  Comment: { postId: number };
+  Profile: NavigatorScreenParams<ProfileStackParamList> | undefined;
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> = NativeStackScreenProps<
@@ -46,4 +47,16 @@ export type HomeTabParamList = {
 export type HomeTabScreenProps<Screen extends keyof HomeTabParamList> = CompositeScreenProps<
   BottomTabScreenProps<HomeTabParamList, Screen>,
   NativeStackScreenProps<RootStackParamList>
+>;
+
+export type ProfileStackParamList = {
+  Main: { account: string };
+  Follower: { account: string };
+  Following: { account: string };
+  Feed: { account: string, initialScrollIndex?: number };
+};
+
+export type ProfileStackScreenProps<Screen extends keyof ProfileStackParamList> = NativeStackScreenProps<
+  ProfileStackParamList,
+  Screen
 >;

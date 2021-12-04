@@ -5,7 +5,6 @@ import { HomeTabParamList, RootStackScreenProps } from "types";
 import { MainScreen, ProfileScreen } from '@screens';
 import { Logo } from '@components';
 import styled from 'styled-components/native';
-import { logout } from '@constants/ApolloClient';
 import Avatar from 'components/Avatar';
 
 const Tab = createBottomTabNavigator<HomeTabParamList>();
@@ -16,7 +15,7 @@ export default function HomeTabNavigator({ navigation }: RootStackScreenProps<"H
             <Tab.Screen
                 name="Main"
                 component={MainScreen}
-                options={{ headerLeft: () => <LogoWrap><Logo /></LogoWrap>, headerRightContainerStyle: { paddingRight: 10 }, headerRight: () => <Avatar onPress={logout} avatarUrl={""} />, tabBarIcon: (props) => <TabBarIcon name='home' props={props} /> }}
+                options={{ headerLeft: () => <LogoWrap><Logo /></LogoWrap>, headerRightContainerStyle: { paddingRight: 10 }, headerRight: () => <Avatar avatarUrl={""} />, tabBarIcon: (props) => <TabBarIcon name='home' props={props} /> }}
             />
             <Tab.Screen
                 name="Search"

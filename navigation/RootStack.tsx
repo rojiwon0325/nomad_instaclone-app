@@ -7,6 +7,7 @@ import { useQuery, useReactiveVar } from '@apollo/client';
 import { getMe } from '@Igql/getMe';
 import { GETME_QUERY } from '@constants/query/account';
 import { jwToken } from '@constants/ApolloClient';
+import ProfileNavigator from './ProfileStack';
 
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -14,6 +15,7 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 export default function RootNavigator({ navigation }: AuthStackScreenProps<"Root">) {
   const token = useReactiveVar(jwToken);
   const { data, loading } = useQuery<getMe>(GETME_QUERY, { skip: token === null });
+
   useEffect(() => {
     if (token === null || (data && data.getMe === null)) {
       //console.log("token:", token);
@@ -30,8 +32,9 @@ export default function RootNavigator({ navigation }: AuthStackScreenProps<"Root
     <Stack.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Home" component={HomeTabNavigator} />
       <Stack.Group screenOptions={{ presentation: 'card' }}>
-        <Stack.Screen name="Post" component={ModalScreen} />
-        <Stack.Screen name="Profile" component={ModalScreen} />
+        <Stack.Screen name="Like" component={ModalScreen} />
+        <Stack.Screen name="Comment" component={ModalScreen} />
+        <Stack.Screen name="Profile" component={ProfileNavigator} />
       </Stack.Group>
     </Stack.Navigator>
   );

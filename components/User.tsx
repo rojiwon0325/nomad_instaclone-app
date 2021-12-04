@@ -5,7 +5,7 @@ import styled from "styled-components/native";
 const User: React.FC<{ account: string }> = ({ account }) => {
     const navigation = useNavigation();
     return (
-        <Container onPress={() => navigation.navigate("Profile")}>
+        <Container onPress={() => navigation.navigate("Profile", { screen: "Main", params: { account } })}>
             <Text>{account}</Text>
         </Container>
     );

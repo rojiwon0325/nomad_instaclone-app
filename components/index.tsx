@@ -6,6 +6,7 @@ import _Avatar from "./Avatar";
 import _Logo from "./Logo";
 import _Post from "./Post";
 import _User from "./User";
+import _Feed from "./Feed";
 
 export const BlueBtn = _BlueBtn;
 
@@ -22,3 +23,5 @@ export const Logo = _Logo;
 export const Post = _Post;
 
 export const User = _User;
+
+export const Feed = _Feed;

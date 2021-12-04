@@ -1,12 +1,13 @@
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { GestureResponderEvent } from 'react-native';
 import styled from "styled-components/native";
 
-const Avatar: React.FC<{ avatarUrl: string, onPress?: ((event: GestureResponderEvent) => void) | undefined }> = ({ avatarUrl, onPress }) => {
+const Avatar: React.FC<{ avatarUrl: string, account?: string }> = ({ avatarUrl, account }) => {
+    const navigation = useNavigation();
     const defaultImg = require("../assets/images/defaultAvatar.png");
 
     return (
-        <Container onPress={onPress} activeOpacity={1}>
+        <Container onPress={() => account && navigation.navigate("Profile", { screen: "Main", params: { account } })} activeOpacity={1}>
             <Img source={{ uri: avatarUrl === "" ? "../assets/images/defaultAvatar.png" : avatarUrl }} resizeMode="contain" defaultSource={defaultImg} />
         </Container>
     );
@@ -16,7 +17,7 @@ const Container = styled.TouchableOpacity`
     background-color: "rgba(0,0,0,0)";
     aspect-ratio: 1;
     border-radius: 1000px;
-    height: 70%;
+    height: 100%;
     align-items: center;
     justify-content: center;
     overflow: hidden;

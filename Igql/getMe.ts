@@ -17,7 +17,7 @@ export interface getMe_getMe_profile__count {
 export interface getMe_getMe_profile {
   __typename: "Profile";
   isPublic: boolean;
-  bio: string;
+  bio: string[];
   _count: getMe_getMe_profile__count | null;
 }
 

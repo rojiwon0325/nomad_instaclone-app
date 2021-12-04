@@ -1,6 +1,5 @@
 import { LinkingOptions } from '@react-navigation/native';
 import * as Linking from 'expo-linking';
-
 import { AuthStackParamList } from 'types';
 
 const linking: LinkingOptions<AuthStackParamList> = {
@@ -11,14 +10,22 @@ const linking: LinkingOptions<AuthStackParamList> = {
         screens: {
           Home: {
             screens: {
-              Main: 'main',
+              Main: 'homemain',
               Search: 'search',
               MyProfile: 'myprofile',
             },
           },
-          Post: 'post',
-          Profile: 'profile',
-        },
+          Like: 'like',
+          Comment: 'comment',
+          Profile: {
+            screens: {
+              Main: "profilemain",
+              Follower: "follower",
+              Following: "following",
+              Feed: "feed"
+            }
+          },
+        }
       },
       SignIn: 'signin',
       SignUp: 'signup',

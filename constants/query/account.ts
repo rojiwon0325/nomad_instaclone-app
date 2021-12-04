@@ -74,3 +74,9 @@ export const DELETEFOLLOWING_MUTATION = gql`
         }
     }
 `;
+
+export const CHECKACCESS_QUERY = gql`
+    query checkAccess($account: String!){
+        checkAccess(account: $account)
+    }
+`;
