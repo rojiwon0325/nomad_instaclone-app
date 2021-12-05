@@ -1,24 +1,41 @@
 import { gql } from "@apollo/client";
 
-export const USER_FRAGMENT = gql`
-    fragment User on User{
+export const PROFILE_FRAGMENT = gql`
+    fragment Profile on Profile{
+        isPublic
+        bio
+        _count{
+            post
+            follower
+            following
+        }
+    }
+`;
+
+export const SIMPLEUSER_FRAGMENT = gql`
+    fragment SimpleUser on User{
         username
         account
         avatarUrl
         isMe
         isFollowing
         isRequesting
+    }
+`;
+
+export const USER_FRAGMENT = gql`
+    ${SIMPLEUSER_FRAGMENT}
+    ${PROFILE_FRAGMENT}
+    fragment User on User{
+        ...SimpleUser
         profile{
-            isPublic
-            bio
-            _count{
-                post
-                follower
-                following
-            }
+            ...Profile
         }
     }
 `;
+
+
+
 
 export const LOGIN_MUTATION = gql`
     mutation login($account:String! $password:String!){
@@ -79,4 +96,22 @@ export const CHECKACCESS_QUERY = gql`
     query checkAccess($account: String!){
         checkAccess(account: $account)
     }
+`;
+
+export const SEEFOLLOWER_QUERY = gql`
+    query seeFollower($account: String!){
+        seeFollower(account: $account){
+            ...SimpleUser
+        }
+    }
+    ${SIMPLEUSER_FRAGMENT}
+`;
+
+export const SEEFOLLOWING_QUERY = gql`
+    query seeFollowing($account: String!){
+        seeFollowing(account: $account){
+            ...SimpleUser
+        }
+    }
+    ${SIMPLEUSER_FRAGMENT}
 `;

@@ -6,6 +6,7 @@ import _Avatar from "./Avatar";
 import _Logo from "./Logo";
 import _Post from "./Post";
 import _User from "./User";
+import _UserList from "./UserList";
 import _Feed from "./Feed";
 import _MarginH from "./MarginH";
 import _MarginV from "./MarginV";
@@ -25,6 +26,8 @@ export const Logo = _Logo;
 export const Post = _Post;
 
 export const User = _User;
+
+export const UserList = _UserList;
 
 export const Feed = _Feed;
 

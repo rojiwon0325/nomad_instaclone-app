@@ -7,9 +7,7 @@ import { Post } from '@components';
 
 export default function MainScreen() {
     const { data, loading, refetch, fetchMore } = useQuery<seePost>(SEEPOST_QUERY);
-    useEffect(() => {
-        refetch();
-    }, []);
+
     return (
         <FlatList<seePost_seePost>
             refreshing={loading}

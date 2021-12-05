@@ -6,8 +6,10 @@ import { seeFeed, seeFeed_seeFeed } from '@Igql/seeFeed';
 import { Avatar, Feed, MarginH, MarginV } from "@components";
 import { useQuery } from "@apollo/client";
 import { SEEFEED_QUERY } from "@constants/query/post";
+import { useNavigation } from "@react-navigation/native";
 
 const Presenter: React.FC<{ seeProfile: seeProfile_seeProfile }> = ({ seeProfile }) => {
+    const navigation = useNavigation();
     const { data } = useQuery<seeFeed>(SEEFEED_QUERY, { variables: { account: seeProfile.account } });
     const { avatarUrl, username, isMe, profile, account } = seeProfile;
     return (
@@ -19,14 +21,15 @@ const Presenter: React.FC<{ seeProfile: seeProfile_seeProfile }> = ({ seeProfile
                     <Top>
                         <Avatar avatarUrl={avatarUrl} />
                         <MarginH size="30px" />
-                        <CountWrap>
+                        <CountWrap activeOpacity={1}>
                             {profile?._count ? <Count number={true}>{profile._count.post}</Count> : null}
                             <Count>게시물</Count>
                         </CountWrap>
-                        <CountWrap>
+                        <CountWrap activeOpacity={1} onPress={() => { navigation.navigate("Profile", { screen: "Follower", params: { account: seeProfile.account } }) }}>
                             {profile?._count ? <Count number={true}>{profile._count.follower}</Count> : null}
                             <Count>팔로워</Count>
-                        </CountWrap><CountWrap>
+                        </CountWrap>
+                        <CountWrap activeOpacity={1} onPress={() => { navigation.navigate("Profile", { screen: "Following", params: { account: seeProfile.account } }) }}>
                             {profile?._count ? <Count number={true}>{profile._count.following}</Count> : null}
                             <Count>팔로잉</Count>
                         </CountWrap>
@@ -85,7 +88,7 @@ const Top = styled.View`
     align-items: center;
 `;
 
-const CountWrap = styled.View`
+const CountWrap = styled.TouchableOpacity`
     flex: 1;
     align-items: center;
     justify-content: center;
