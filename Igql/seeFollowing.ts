@@ -23,4 +23,5 @@ export interface seeFollowing {
 
 export interface seeFollowingVariables {
   account: string;
+  offset?: number | null;
 }

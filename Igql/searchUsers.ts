@@ -4,10 +4,10 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: seeFollower
+// GraphQL query operation: searchUsers
 // ====================================================
 
-export interface seeFollower_seeFollower {
+export interface searchUsers_searchUsers {
   __typename: "User";
   username: string;
   account: string;
@@ -17,11 +17,10 @@ export interface seeFollower_seeFollower {
   isRequesting: boolean | null;
 }
 
-export interface seeFollower {
-  seeFollower: seeFollower_seeFollower[];
+export interface searchUsers {
+  searchUsers: searchUsers_searchUsers[];
 }
 
-export interface seeFollowerVariables {
-  account: string;
-  offset?: number | null;
+export interface searchUsersVariables {
+  key: string;
 }

@@ -99,8 +99,8 @@ export const CHECKACCESS_QUERY = gql`
 `;
 
 export const SEEFOLLOWER_QUERY = gql`
-    query seeFollower($account: String!){
-        seeFollower(account: $account){
+    query seeFollower($account: String! $offset:Int){
+        seeFollower(account: $account offset:$offset){
             ...SimpleUser
         }
     }
@@ -108,8 +108,26 @@ export const SEEFOLLOWER_QUERY = gql`
 `;
 
 export const SEEFOLLOWING_QUERY = gql`
-    query seeFollowing($account: String!){
-        seeFollowing(account: $account){
+    query seeFollowing($account: String! $offset:Int){
+        seeFollowing(account: $account offset:$offset){
+            ...SimpleUser
+        }
+    }
+    ${SIMPLEUSER_FRAGMENT}
+`;
+
+export const SEELIKE_QUERY = gql`
+    query seeLike($id:Int! $offset:Int){
+        seeLike(id:$id offset:$offset){
+            ...SimpleUser
+        }
+    }
+    ${SIMPLEUSER_FRAGMENT}
+`;
+
+export const SEARCHUSERS_QUERY = gql`
+    query searchUsers($key:String!){
+        searchUsers(key:$key){
             ...SimpleUser
         }
     }

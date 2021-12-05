@@ -40,11 +40,11 @@ const Presenter: React.FC<{ seeProfile: seeProfile_seeProfile }> = ({ seeProfile
                     </Mid>
                     <Bot>
                         {isMe ?
-                            <Btn><BtnText>프로필 편집</BtnText></Btn> :
+                            <Btn activeOpacity={1}><BtnText>프로필 편집</BtnText></Btn> :
                             <>
-                                <Btn><BtnText>팔로잉</BtnText></Btn>
+                                <Btn activeOpacity={1}><BtnText>팔로잉</BtnText></Btn>
                                 <MarginH size="5px" />
-                                <Btn><BtnText>메시지</BtnText></Btn>
+                                <Btn activeOpacity={1}><BtnText>메시지</BtnText></Btn>
                             </>
                         }
                     </Bot>

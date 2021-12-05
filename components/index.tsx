@@ -10,6 +10,7 @@ import _UserList from "./UserList";
 import _Feed from "./Feed";
 import _MarginH from "./MarginH";
 import _MarginV from "./MarginV";
+import _SearchBar from "./SearchBar";
 
 export const BlueBtn = _BlueBtn;
 
@@ -34,3 +35,5 @@ export const Feed = _Feed;
 export const MarginH = _MarginH;
 
 export const MarginV = _MarginV;
+
+export const SearchBar = _SearchBar;

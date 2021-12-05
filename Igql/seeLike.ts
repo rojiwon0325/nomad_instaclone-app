@@ -4,10 +4,10 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: seeFollower
+// GraphQL query operation: seeLike
 // ====================================================
 
-export interface seeFollower_seeFollower {
+export interface seeLike_seeLike {
   __typename: "User";
   username: string;
   account: string;
@@ -17,11 +17,11 @@ export interface seeFollower_seeFollower {
   isRequesting: boolean | null;
 }
 
-export interface seeFollower {
-  seeFollower: seeFollower_seeFollower[];
+export interface seeLike {
+  seeLike: seeLike_seeLike[];
 }
 
-export interface seeFollowerVariables {
-  account: string;
+export interface seeLikeVariables {
+  id: number;
   offset?: number | null;
 }

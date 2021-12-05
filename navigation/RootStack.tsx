@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { ModalScreen } from '@screens';
+import { LikeScreen, ModalScreen } from '@screens';
 import { AuthStackScreenProps, RootStackParamList } from 'types';
 import HomeTabNavigator from './HomeTab';
 import { useQuery, useReactiveVar } from '@apollo/client';
@@ -13,12 +13,12 @@ import ProfileNavigator from './ProfileStack';
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function RootNavigator({ navigation }: AuthStackScreenProps<"Root">) {
-  const token = useReactiveVar(jwToken);
+  const token = jwToken();
   const { data, loading } = useQuery<getMe>(GETME_QUERY, { skip: token === null });
 
   useEffect(() => {
     if (token === null || (data && data.getMe === null)) {
-      //console.log("token:", token);
+      console.log("token:", token);
       navigation.navigate("SignIn");
     }
     if (data?.getMe) {
@@ -31,8 +31,8 @@ export default function RootNavigator({ navigation }: AuthStackScreenProps<"Root
   return (
     <Stack.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Home" component={HomeTabNavigator} />
-      <Stack.Group screenOptions={{ presentation: 'modal' }}>
-        <Stack.Screen name="Like" component={ModalScreen} />
+      <Stack.Group screenOptions={{ presentation: "card" }}>
+        <Stack.Screen name="Like" component={LikeScreen} />
         <Stack.Screen name="Comment" component={ModalScreen} />
         <Stack.Screen name="Profile" component={ProfileNavigator} />
       </Stack.Group>

@@ -2,7 +2,7 @@ import React from 'react';
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { HomeTabParamList, RootStackScreenProps } from "types";
-import { MainScreen } from '@screens';
+import { MainScreen, SearchScreen } from '@screens';
 import { Avatar, Logo } from '@components';
 import styled from 'styled-components/native';
 import ProfileNavigator from './ProfileStack';
@@ -23,8 +23,8 @@ export default function HomeTabNavigator({ navigation }: RootStackScreenProps<"H
             />
             <Tab.Screen
                 name="Search"
-                component={MainScreen}
-                options={{ title: 'Search', tabBarIcon: (props) => <TabBarIcon name='search' props={props} /> }}
+                component={SearchScreen}
+                options={{ tabBarIcon: (props) => <TabBarIcon name='search' props={props} /> }}
             />
             <Tab.Screen
                 name="NewPost"
@@ -35,7 +35,7 @@ export default function HomeTabNavigator({ navigation }: RootStackScreenProps<"H
                 name="MyProfile"
                 component={ProfileNavigator}
                 initialParams={{ screen: "Me" }}
-                options={{ title: 'Profile', tabBarIcon: (props) => data?.getMe ? <TabWrap><Avatar avatarUrl={data.getMe.avatarUrl} /></TabWrap> : <TabBarIcon name='person' props={props} /> }}
+                options={{ headerLeft: () => <LogoWrap><Logo /></LogoWrap>, headerRightContainerStyle: { paddingRight: 15 }, headerRight: () => <Plane name="paper-plane-outline" size={25} />, tabBarIcon: (props) => data?.getMe ? <TabWrap><Avatar avatarUrl={data.getMe.avatarUrl} /></TabWrap> : <TabBarIcon name='person' props={props} /> }}
             />
         </Tab.Navigator>
     );

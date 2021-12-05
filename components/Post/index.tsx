@@ -7,11 +7,13 @@ import User from "../User";
 import { Platform, useWindowDimensions, View } from 'react-native';
 import Buttons from './Buttons';
 import MarginH from 'components/MarginH';
+import { useNavigation } from '@react-navigation/native';
 
 const Swiper = Platform.OS !== "web" ? require("react-native-swiper") : null;
 
 const Post: React.FC<{ data: seePost_seePost }> = ({ data: { id, photo, detail, _count } }) => {
     const [captionSlice, setSlice] = useState(2);
+    const navigation = useNavigation();
     const WIDTH = useWindowDimensions().width;
     if (detail === null || _count === null) {
         return null;
@@ -39,7 +41,7 @@ const Post: React.FC<{ data: seePost_seePost }> = ({ data: { id, photo, detail, 
                 <Row>
                     <Buttons id={id} isLiked={isLiked} />
                 </Row>
-                <TextWrap>
+                <TextWrap onPress={() => { navigation.navigate("Like", { id }) }}>
                     <Info>좋아요 <Bold>{like}</Bold>개</Info>
                 </TextWrap>
                 <TextWrap>
