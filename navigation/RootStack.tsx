@@ -6,7 +6,7 @@ import HomeTabNavigator from './HomeTab';
 import { useQuery, useReactiveVar } from '@apollo/client';
 import { getMe } from '@Igql/getMe';
 import { GETME_QUERY } from '@constants/query/account';
-import { jwToken } from '@constants/ApolloClient';
+import { jwToken, myData } from '@constants/ApolloClient';
 import ProfileNavigator from './ProfileStack';
 
 
@@ -22,7 +22,7 @@ export default function RootNavigator({ navigation }: AuthStackScreenProps<"Root
       navigation.navigate("SignIn");
     }
     if (data?.getMe) {
-      //console.log(data.getMe);
+      myData(data.getMe);
     }
   }, [token, data]);
   if (loading) {
@@ -31,7 +31,7 @@ export default function RootNavigator({ navigation }: AuthStackScreenProps<"Root
   return (
     <Stack.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Home" component={HomeTabNavigator} />
-      <Stack.Group screenOptions={{ presentation: 'card' }}>
+      <Stack.Group screenOptions={{ presentation: 'modal' }}>
         <Stack.Screen name="Like" component={ModalScreen} />
         <Stack.Screen name="Comment" component={ModalScreen} />
         <Stack.Screen name="Profile" component={ProfileNavigator} />

@@ -7,6 +7,8 @@ import _Logo from "./Logo";
 import _Post from "./Post";
 import _User from "./User";
 import _Feed from "./Feed";
+import _MarginH from "./MarginH";
+import _MarginV from "./MarginV";
 
 export const BlueBtn = _BlueBtn;
 
@@ -25,3 +27,7 @@ export const Post = _Post;
 export const User = _User;
 
 export const Feed = _Feed;
+
+export const MarginH = _MarginH;
+
+export const MarginV = _MarginV;

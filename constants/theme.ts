@@ -12,7 +12,7 @@ export const DarkTheme: DefaultTheme = {
         card: "rgb(15,15,15)",
         text: "rgb(255,255,255)",
         subtext: "rgb(217,217,217)",
-        border: 'rgb(36, 36, 36)',
+        border: 'rgb(80, 80, 80)',
         notification,
     },
 }

@@ -14,7 +14,7 @@ export default function MainScreen() {
         <FlatList<seePost_seePost>
             refreshing={loading}
             onRefresh={() => refetch()}
-            onEndReached={() => data?.seePost?.length ?? 0 > 1 ? fetchMore({ variables: { offset: data?.seePost?.length ?? 0 } }) : null}
+            onEndReached={() => data?.seePost?.length ?? 0 ? fetchMore({ variables: { offset: data?.seePost?.length ?? 0 } }) : null}
             initialScrollIndex={0}
             data={data?.seePost ?? []}
             contentContainerStyle={{ width: "100%" }}

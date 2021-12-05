@@ -20,12 +20,12 @@ export default function useCachedResources() {
           ...Ionicons.font,
           'space-mono': require('../assets/fonts/SpaceMono-Regular.ttf'),
         });
-
+        /**
         await persistCache({
           cache,
           storage: new AsyncStorageWrapper(AsyncStorage),
         });
-
+        */
         const token = await AsyncStorage.getItem('jwt');
         if (token) {
           login(token)

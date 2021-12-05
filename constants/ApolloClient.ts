@@ -1,10 +1,12 @@
 import { ApolloClient, createHttpLink, InMemoryCache, makeVar } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { getMe_getMe } from "@Igql/getMe";
 
 const TOKEN = 'jwt';
 export const jwToken = makeVar<string | null>(null);
 export const isLogin = makeVar<boolean>(false);
+export const myData = makeVar<getMe_getMe | null>(null);
 
 export const login = async (token: string) => {
     await AsyncStorage.setItem(TOKEN, token);
@@ -42,6 +44,34 @@ export const cache = new InMemoryCache({
             fields: {
                 seePost: {
                     keyArgs: ["id", "account"],
+                    merge: (exi = [], inc = []) => [...exi, ...inc]
+                },
+                seeFeed: {
+                    keyArgs: ["account"],
+                    merge: (exi = [], inc = []) => {
+                        if (inc === null) {
+                            return exi;
+                        } else if (exi === null) {
+                            return inc;
+                        } else {
+                            return [...exi, ...inc];
+                        }
+                    }
+                },
+                seeLike: {
+                    keyArgs: ["id"],
+                    merge: (exi = [], inc = []) => [...exi, ...inc]
+                },
+                seeFollower: {
+                    keyArgs: ["account"],
+                    merge: (exi = [], inc = []) => [...exi, ...inc]
+                },
+                seeFollowing: {
+                    keyArgs: ["account"],
+                    merge: (exi = [], inc = []) => [...exi, ...inc]
+                },
+                seeComment: {
+                    keyArgs: ["postId", "rootId"],
                     merge: (exi = [], inc = []) => [...exi, ...inc]
                 }
             }

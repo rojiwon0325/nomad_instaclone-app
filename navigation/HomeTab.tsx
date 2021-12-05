@@ -1,21 +1,25 @@
-import * as React from 'react';
+import React from 'react';
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { HomeTabParamList, RootStackScreenProps } from "types";
-import { MainScreen, ProfileScreen } from '@screens';
-import { Logo } from '@components';
+import { MainScreen } from '@screens';
+import { Avatar, Logo } from '@components';
 import styled from 'styled-components/native';
-import Avatar from 'components/Avatar';
+import ProfileNavigator from './ProfileStack';
+import { useQuery } from '@apollo/client';
+import { getMe } from '@Igql/getMe';
+import { GETME_QUERY } from '@constants/query/account';
 
 const Tab = createBottomTabNavigator<HomeTabParamList>();
 
 export default function HomeTabNavigator({ navigation }: RootStackScreenProps<"Home">) {
+    const { data } = useQuery<getMe>(GETME_QUERY);
     return (
         <Tab.Navigator initialRouteName="Main" screenOptions={{ tabBarShowLabel: false, headerTitle: () => null }}>
             <Tab.Screen
                 name="Main"
                 component={MainScreen}
-                options={{ headerLeft: () => <LogoWrap><Logo /></LogoWrap>, headerRightContainerStyle: { paddingRight: 10 }, headerRight: () => <Avatar avatarUrl={""} />, tabBarIcon: (props) => <TabBarIcon name='home' props={props} /> }}
+                options={{ headerLeft: () => <LogoWrap><Logo /></LogoWrap>, headerRightContainerStyle: { paddingRight: 15 }, headerRight: () => <Plane name="paper-plane-outline" size={25} />, tabBarIcon: (props) => <TabBarIcon name='home' props={props} /> }}
             />
             <Tab.Screen
                 name="Search"
@@ -29,8 +33,9 @@ export default function HomeTabNavigator({ navigation }: RootStackScreenProps<"H
             />
             <Tab.Screen
                 name="MyProfile"
-                component={ProfileScreen}
-                options={{ title: 'Profile', tabBarIcon: (props) => <TabBarIcon name='person' props={props} /> }}
+                component={ProfileNavigator}
+                initialParams={{ screen: "Me" }}
+                options={{ title: 'Profile', tabBarIcon: (props) => data?.getMe ? <TabWrap><Avatar avatarUrl={data.getMe.avatarUrl} /></TabWrap> : <TabBarIcon name='person' props={props} /> }}
             />
         </Tab.Navigator>
     );
@@ -49,4 +54,17 @@ const TabBarIcon = ({ name, props }: { name: 'home' | 'search' | 'person' | 'md-
 const LogoWrap = styled.View`
     width: 80%;
     height: 100%;
+    align-items: center;
+    justify-content: center;
+`;
+const TabWrap = styled.View`
+    width: 80%;
+    height: 60%;
+    align-items: center;
+    justify-content: center;
+`;
+const Touch = styled.TouchableOpacity``;
+
+const Plane = styled(Ionicons)`
+    color: ${({ theme }) => theme.colors.text};
 `;

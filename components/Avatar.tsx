@@ -7,7 +7,7 @@ const Avatar: React.FC<{ avatarUrl: string, account?: string }> = ({ avatarUrl, 
     const defaultImg = require("../assets/images/defaultAvatar.png");
 
     return (
-        <Container onPress={() => account && navigation.navigate("Profile", { screen: "Main", params: { account } })} activeOpacity={1}>
+        <Container disabled={!account} onPress={() => account && navigation.navigate("Profile", { screen: "Main", params: { account } })} activeOpacity={1}>
             <Img source={{ uri: avatarUrl === "" ? "../assets/images/defaultAvatar.png" : avatarUrl }} resizeMode="contain" defaultSource={defaultImg} />
         </Container>
     );

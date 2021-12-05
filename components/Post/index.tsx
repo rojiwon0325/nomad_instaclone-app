@@ -6,6 +6,7 @@ import Avatar from '../Avatar';
 import User from "../User";
 import { Platform, useWindowDimensions, View } from 'react-native';
 import Buttons from './Buttons';
+import MarginH from 'components/MarginH';
 
 const Swiper = Platform.OS !== "web" ? require("react-native-swiper") : null;
 
@@ -101,16 +102,8 @@ const Photo = styled.Image`
     aspect-ratio: 1;
 `;
 
-const MarginV = styled.View<{ size: string }>`
-    height: ${({ size }) => size};
-`;
-
 const AvatarWrap = styled.View`
     height: 80%;
-`;
-
-const MarginH = styled.View<{ size: string }>`
-    width: ${({ size }) => size};
 `;
 
 const Row = styled.View`

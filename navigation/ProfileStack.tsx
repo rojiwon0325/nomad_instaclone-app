@@ -1,33 +1,16 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { ModalScreen, ProfileScreen } from '@screens';
-import { ProfileStackParamList, RootStackScreenProps } from 'types';
-import { useQuery, useReactiveVar } from '@apollo/client';
-import { CHECKACCESS_QUERY } from '@constants/query/account';
-import { checkAccess } from '@Igql/checkAccess';
-import { ActivityIndicator } from 'react-native';
-
+import { ModalScreen } from '@screens';
+import { HomeTabScreenProps, ProfileStackParamList, RootStackScreenProps } from 'types';
+import { MyProfileScreen, ProfileScreen } from 'screens/profile';
 
 const Stack = createNativeStackNavigator<ProfileStackParamList>();
 
-export default function ProfileNavigator({ navigation, route }: RootStackScreenProps<"Profile">) {
-    const { params } = route;
-    const account = params?.params?.account ?? "";
-    const { data } = useQuery<checkAccess>(CHECKACCESS_QUERY, { skip: params === undefined, variables: { account } });
+export default function ProfileNavigator({ navigation, route }: RootStackScreenProps<"Profile"> | HomeTabScreenProps<"MyProfile">) {
 
-    if (data === undefined) {
-        return <ActivityIndicator />;
-    }
-
-    if (!data.checkAccess) {
-        if (navigation.canGoBack()) {
-            navigation.goBack();
-        } else {
-            navigation.navigate("Home");
-        }
-    }
     return (
-        <Stack.Navigator initialRouteName="Main" screenOptions={{ presentation: "modal" }}>
+        <Stack.Navigator initialRouteName="Main" screenOptions={{ presentation: "modal", headerShown: route.name !== "MyProfile" }}>
+            <Stack.Screen name="Me" component={MyProfileScreen} />
             <Stack.Screen name="Main" component={ProfileScreen} />
             <Stack.Screen name="Follower" component={ModalScreen} />
             <Stack.Screen name="Following" component={ModalScreen} />
