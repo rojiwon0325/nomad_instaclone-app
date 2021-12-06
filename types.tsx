@@ -41,7 +41,7 @@ export type HomeTabParamList = {
   Main: undefined;
   Search: undefined;
   NewPost: undefined;
-  MyProfile: NavigatorScreenParams<ProfileStackParamList> | undefined;
+  MyProfile: NavigatorScreenParams<MyProfileStackParamList> | undefined;
 };
 
 export type HomeTabScreenProps<Screen extends keyof HomeTabParamList> = CompositeScreenProps<
@@ -51,7 +51,6 @@ export type HomeTabScreenProps<Screen extends keyof HomeTabParamList> = Composit
 
 export type ProfileStackParamList = {
   Main: { account: string };
-  Me: undefined;
   Follower: { account: string };
   Following: { account: string };
   Feed: { account: string, initialScrollIndex?: number };
@@ -59,5 +58,17 @@ export type ProfileStackParamList = {
 
 export type ProfileStackScreenProps<Screen extends keyof ProfileStackParamList> = NativeStackScreenProps<
   ProfileStackParamList,
+  Screen
+>;
+
+export type MyProfileStackParamList = {
+  Main: undefined;
+  Follower: { account: string };
+  Following: { account: string };
+  Feed: { account: string, initialScrollIndex?: number };
+};
+
+export type MyProfileStackScreenProps<Screen extends keyof MyProfileStackParamList> = NativeStackScreenProps<
+  MyProfileStackParamList,
   Screen
 >;

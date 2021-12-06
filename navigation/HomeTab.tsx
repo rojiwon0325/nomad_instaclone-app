@@ -5,10 +5,12 @@ import { HomeTabParamList, RootStackScreenProps } from "types";
 import { MainScreen, SearchScreen } from '@screens';
 import { Avatar, Logo } from '@components';
 import styled from 'styled-components/native';
-import ProfileNavigator from './ProfileStack';
 import { useQuery } from '@apollo/client';
 import { getMe } from '@Igql/getMe';
 import { GETME_QUERY } from '@constants/query/account';
+import { MyProfileScreen } from 'screens/profile';
+import MyProfileNavigator from './MyProfileStack';
+import ProfileNavigator from './ProfileStack';
 
 const Tab = createBottomTabNavigator<HomeTabParamList>();
 
@@ -34,8 +36,7 @@ export default function HomeTabNavigator({ navigation }: RootStackScreenProps<"H
             <Tab.Screen
                 name="MyProfile"
                 component={ProfileNavigator}
-                initialParams={{ screen: "Me" }}
-                options={{ headerLeft: () => <LogoWrap><Logo /></LogoWrap>, headerRightContainerStyle: { paddingRight: 15 }, headerRight: () => <Plane name="paper-plane-outline" size={25} />, tabBarIcon: (props) => data?.getMe ? <TabWrap><Avatar avatarUrl={data.getMe.avatarUrl} /></TabWrap> : <TabBarIcon name='person' props={props} /> }}
+                options={{ headerShown: true, headerLeft: () => <LogoWrap><Logo /></LogoWrap>, headerRightContainerStyle: { paddingRight: 15 }, headerRight: () => <Plane name="paper-plane-outline" size={25} />, tabBarIcon: (props) => data?.getMe ? <TabWrap><Avatar avatarUrl={data.getMe.avatarUrl} /></TabWrap> : <TabBarIcon name='person' props={props} /> }}
             />
         </Tab.Navigator>
     );

@@ -14,7 +14,7 @@ const linking: LinkingOptions<AuthStackParamList> = {
               Search: 'search',
               MyProfile: {
                 screens: {
-                  Main: "profilemain",
+                  Main: "profile",
                   Follower: "follower",
                   Following: "following",
                   Feed: "feed"
@@ -26,7 +26,7 @@ const linking: LinkingOptions<AuthStackParamList> = {
           Comment: 'comment',
           Profile: {
             screens: {
-              Main: "profilemain",
+              Main: "profile",
               Follower: "follower",
               Following: "following",
               Feed: "feed"

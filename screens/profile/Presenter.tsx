@@ -7,9 +7,11 @@ import { Avatar, Feed, MarginH, MarginV } from "@components";
 import { useQuery } from "@apollo/client";
 import { SEEFEED_QUERY } from "@constants/query/post";
 import { useNavigation } from "@react-navigation/native";
+import { MyProfileStackParamList, ProfileStackParamList, ProfileStackScreenProps } from "types";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 const Presenter: React.FC<{ seeProfile: seeProfile_seeProfile }> = ({ seeProfile }) => {
-    const navigation = useNavigation();
+    const navigation = useNavigation<NativeStackNavigationProp<ProfileStackParamList | MyProfileStackParamList, "Main">>();
     const { data } = useQuery<seeFeed>(SEEFEED_QUERY, { variables: { account: seeProfile.account } });
     const { avatarUrl, username, isMe, profile, account } = seeProfile;
     return (
@@ -25,11 +27,11 @@ const Presenter: React.FC<{ seeProfile: seeProfile_seeProfile }> = ({ seeProfile
                             {profile?._count ? <Count number={true}>{profile._count.post}</Count> : null}
                             <Count>게시물</Count>
                         </CountWrap>
-                        <CountWrap activeOpacity={1} onPress={() => { navigation.navigate("Profile", { screen: "Follower", params: { account: seeProfile.account } }) }}>
+                        <CountWrap activeOpacity={1} onPress={() => { navigation.navigate("Follower", { account: seeProfile.account }) }}>
                             {profile?._count ? <Count number={true}>{profile._count.follower}</Count> : null}
                             <Count>팔로워</Count>
                         </CountWrap>
-                        <CountWrap activeOpacity={1} onPress={() => { navigation.navigate("Profile", { screen: "Following", params: { account: seeProfile.account } }) }}>
+                        <CountWrap activeOpacity={1} onPress={() => { navigation.navigate("Follower", { account: seeProfile.account }) }}>
                             {profile?._count ? <Count number={true}>{profile._count.following}</Count> : null}
                             <Count>팔로잉</Count>
                         </CountWrap>

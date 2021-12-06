@@ -24,11 +24,12 @@ export default function SignInScreen({ navigation, route }: AuthStackScreenProps
             }
         },
     });
+    /**
     useEffect(() => {
         logout();
         reset(params);
     }, [params]);
-
+    */
     return (
         <AuthLayout>
             <LogoWrap>
