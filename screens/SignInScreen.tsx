@@ -4,32 +4,37 @@ import styled from 'styled-components/native';
 import { AuthInput, AuthLayout, BlueBtn, BlueLink, Logo } from '@components';
 import { TextInput } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
-import { useMutation } from '@apollo/client';
-import { LOGIN_MUTATION } from '@constants/query/account';
-import { login as setLogin, logout } from '@constants/ApolloClient';
+import { useLazyQuery, useMutation } from '@apollo/client';
+import { GETME_QUERY, LOGIN_MUTATION } from '@constants/query/account';
+import { login as setLogin } from '@constants/ApolloClient';
 import { login } from '@Igql/login';
+import { getMe } from '@Igql/getMe';
 
 export default function SignInScreen({ navigation, route }: AuthStackScreenProps<"SignIn">) {
     const last = useRef<TextInput>(null);
     const { params } = route;
+    const [startQueryFn] = useLazyQuery<getMe>(GETME_QUERY);
+
     const { control, handleSubmit, formState: { isValid, errors }, reset } = useForm<{ account: string, password: string }>({ mode: "onChange" });
     const [login, { loading }] = useMutation<login>(LOGIN_MUTATION, {
         onCompleted: async ({ login: { ok, error, token } }) => {
             if (ok && token) {
                 await setLogin(token);
-                navigation.navigate("Root");
+                const res = await startQueryFn();
+                if (res.data?.getMe === null) {
+                    reset();
+                } else {
+                    navigation.reset({ index: 0, routes: [{ name: "Root" }] });
+                }
             } else {
                 console.log(error);
                 //error message 창 만들것
             }
         },
     });
-    /**
     useEffect(() => {
-        logout();
         reset(params);
     }, [params]);
-    */
     return (
         <AuthLayout>
             <LogoWrap>

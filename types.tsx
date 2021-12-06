@@ -30,6 +30,7 @@ export type RootStackParamList = {
   Like: { id: number };
   Comment: { postId: number };
   Profile: NavigatorScreenParams<ProfileStackParamList> | undefined;
+  Upload: undefined;
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> = NativeStackScreenProps<
@@ -40,7 +41,7 @@ export type RootStackScreenProps<Screen extends keyof RootStackParamList> = Nati
 export type HomeTabParamList = {
   Main: undefined;
   Search: undefined;
-  NewPost: undefined;
+  UploadFake: undefined;
   MyProfile: NavigatorScreenParams<MyProfileStackParamList> | undefined;
 };
 

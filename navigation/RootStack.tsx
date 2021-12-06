@@ -6,25 +6,20 @@ import HomeTabNavigator from './HomeTab';
 import { useQuery } from '@apollo/client';
 import { getMe } from '@Igql/getMe';
 import { GETME_QUERY } from '@constants/query/account';
-import { jwToken, myData } from '@constants/ApolloClient';
 import ProfileNavigator from './ProfileStack';
+import { View } from 'react-native';
 
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
-export default function RootNavigator({ navigation, route }: AuthStackScreenProps<"Root">) {
-  const token = jwToken();
-  const { data, loading } = useQuery<getMe>(GETME_QUERY, { skip: token === null });
+export default function RootNavigator({ navigation }: AuthStackScreenProps<"Root">) {
+  const { data, loading } = useQuery<getMe>(GETME_QUERY);
 
   useEffect(() => {
-    if (token === null || (data && data.getMe === null)) {
-      console.log("token:", token);
+    if (data?.getMe === null) {
       navigation.reset({ index: 0, routes: [{ name: "SignIn" }] });
     }
-    if (data?.getMe) {
-      myData(data.getMe);
-    }
-  }, [token, data]);
+  }, [data?.getMe]);
 
 
   if (loading) {
@@ -35,6 +30,7 @@ export default function RootNavigator({ navigation, route }: AuthStackScreenProp
     <Stack.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Home" component={HomeTabNavigator} />
       <Stack.Screen name="Profile" component={ProfileNavigator} options={{ headerShown: true }} />
+      <Stack.Screen name="Upload" component={View} options={{ headerShown: true, animation: "none" }} />
       <Stack.Group screenOptions={{ presentation: "modal", headerShown: true }}>
         <Stack.Screen name="Like" component={LikeScreen} />
         <Stack.Screen name="Comment" component={ModalScreen} />

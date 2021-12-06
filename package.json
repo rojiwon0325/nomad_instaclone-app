@@ -20,6 +20,7 @@
     "@react-native-async-storage/async-storage": "~1.15.0",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-navigation/bottom-tabs": "^6.0.5",
+    "@react-navigation/material-top-tabs": "^6.0.6",
     "@react-navigation/native": "^6.0.2",
     "@react-navigation/native-stack": "^6.1.0",
     "apollo3-cache-persist": "^0.13.0",
@@ -42,9 +43,12 @@
     "react-native-screens": "~3.8.0",
     "react-native-swiper": "^1.6.0",
     "react-native-swiper-flatlist": "^3.0.16",
+    "react-native-tab-view": "^3.1.1",
     "react-native-web": "0.17.1",
     "recoil": "^0.5.2",
-    "styled-components": "^5.3.3"
+    "styled-components": "^5.3.3",
+    "react-native-pager-view": "5.4.6",
+    "expo-media-library": "~13.0.3"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

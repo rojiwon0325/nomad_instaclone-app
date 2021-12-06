@@ -17,6 +17,7 @@ export const login = async (token: string) => {
 export const logout = async () => {
     await AsyncStorage.removeItem(TOKEN);
     await AsyncStorage.clear();
+    await client.clearStore();
     jwToken(null);
     isLogin(false);
 };

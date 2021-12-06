@@ -20,10 +20,12 @@ const linking: LinkingOptions<AuthStackParamList> = {
                   Feed: "feed"
                 }
               },
+              UploadFake: 'uploadfake',
             },
           },
           Like: 'like',
           Comment: 'comment',
+          Upload: 'upload',
           Profile: {
             screens: {
               Main: "profile",

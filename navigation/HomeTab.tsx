@@ -8,9 +8,8 @@ import styled from 'styled-components/native';
 import { useQuery } from '@apollo/client';
 import { getMe } from '@Igql/getMe';
 import { GETME_QUERY } from '@constants/query/account';
-import { MyProfileScreen } from 'screens/profile';
-import MyProfileNavigator from './MyProfileStack';
 import ProfileNavigator from './ProfileStack';
+import { View } from 'react-native';
 
 const Tab = createBottomTabNavigator<HomeTabParamList>();
 
@@ -29,9 +28,15 @@ export default function HomeTabNavigator({ navigation }: RootStackScreenProps<"H
                 options={{ tabBarIcon: (props) => <TabBarIcon name='search' props={props} /> }}
             />
             <Tab.Screen
-                name="NewPost"
-                component={MainScreen}
-                options={{ title: 'New Post', headerShown: false, tabBarIcon: ({ focused, color, size }) => <FontAwesome name={focused ? "plus-square" : "plus-square-o"} color={color} size={size} /> }}
+                name="UploadFake"
+                component={View}
+                listeners={{
+                    tabPress: (e) => {
+                        e.preventDefault();
+                        navigation.navigate("Upload");
+                    }
+                }}
+                options={{ tabBarIcon: ({ focused, color, size }) => <FontAwesome name={focused ? "plus-square" : "plus-square-o"} color={color} size={size} /> }}
             />
             <Tab.Screen
                 name="MyProfile"
