@@ -24,11 +24,21 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#000000"
       }
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
-    }
+    },
+    "plugins": [
+      [
+        "expo-media-library",
+        {
+          "photosPermission": "Allow Instaclone to access your photos.",
+          "savePhotosPermission": "Allow Instaclone to save photos.",
+          "isAccessMediaLocationEnabled": false
+        }
+      ]
+    ]
   }
 }

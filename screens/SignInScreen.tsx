@@ -32,9 +32,11 @@ export default function SignInScreen({ navigation, route }: AuthStackScreenProps
             }
         },
     });
+    /**
     useEffect(() => {
         reset(params);
     }, [params]);
+    */
     return (
         <AuthLayout>
             <LogoWrap>

@@ -25,7 +25,13 @@ const linking: LinkingOptions<AuthStackParamList> = {
           },
           Like: 'like',
           Comment: 'comment',
-          Upload: 'upload',
+          Upload: {
+            screens: {
+              Select: "select",
+              Take: "take",
+              Caption: "caption",
+            }
+          },
           Profile: {
             screens: {
               Main: "profile",

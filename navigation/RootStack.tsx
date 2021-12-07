@@ -8,6 +8,7 @@ import { getMe } from '@Igql/getMe';
 import { GETME_QUERY } from '@constants/query/account';
 import ProfileNavigator from './ProfileStack';
 import { View } from 'react-native';
+import UploadNavigator from './UploadStack';
 
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -30,7 +31,7 @@ export default function RootNavigator({ navigation }: AuthStackScreenProps<"Root
     <Stack.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Home" component={HomeTabNavigator} />
       <Stack.Screen name="Profile" component={ProfileNavigator} options={{ headerShown: true }} />
-      <Stack.Screen name="Upload" component={View} options={{ headerShown: true, animation: "none" }} />
+      <Stack.Screen name="Upload" component={UploadNavigator} options={{ headerShown: true, animation: "none" }} />
       <Stack.Group screenOptions={{ presentation: "modal", headerShown: true }}>
         <Stack.Screen name="Like" component={LikeScreen} />
         <Stack.Screen name="Comment" component={ModalScreen} />

@@ -23,7 +23,7 @@ export const logout = async () => {
 };
 
 const httpLink = createHttpLink({
-    uri: 'http://localhost:4000/graphql',
+    uri: 'https://kind-turtle-89.loca.lt/graphql',
 });
 
 const auth = setContext((_, { headers }) => {
