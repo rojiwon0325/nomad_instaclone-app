@@ -30,10 +30,10 @@ export default function UploadNavigator({ navigation }: RootStackScreenProps<"Up
     }, []);
 
     return (
-        <Stack.Navigator initialRouteName="Select" screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="Select" component={SelectScreen} />
-            {status?.accessPrivileges === "all" ? <Stack.Screen name="Take" component={TakeScreen} /> : null}
-            <Stack.Screen name="Caption" component={CaptionScreen} />
+        <Stack.Navigator initialRouteName="Select" screenOptions={{ headerShown: true }}>
+            <Stack.Screen name="Select" component={SelectScreen} options={{ title: "사진 선택" }} />
+            {status?.accessPrivileges === "all" ? <Stack.Screen name="Take" component={TakeScreen} options={{ title: "사진 촬영" }} /> : null}
+            <Stack.Screen name="Caption" component={CaptionScreen} options={{ title: "문구" }} />
         </Stack.Navigator>
     );
 }

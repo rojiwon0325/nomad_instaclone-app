@@ -1,7 +1,10 @@
-import { ApolloClient, createHttpLink, InMemoryCache, makeVar } from "@apollo/client";
+import { ApolloClient, InMemoryCache, makeVar } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getMe_getMe } from "@Igql/getMe";
+import { onError } from "@apollo/client/link/error";
+import { createUploadLink } from "apollo-upload-client";
+
 
 const TOKEN = 'jwt';
 export const jwToken = makeVar<string | null>(null);
@@ -22,11 +25,21 @@ export const logout = async () => {
     isLogin(false);
 };
 
-const httpLink = createHttpLink({
-    uri: 'https://kind-turtle-89.loca.lt/graphql',
+const uploadHttpLink = createUploadLink({
+    uri: 'https://quiet-walrus-4.loca.lt/graphql',
 });
 
-const auth = setContext((_, { headers }) => {
+const onErrorLink = onError(({ graphQLErrors, networkError }) => {
+    if (graphQLErrors) {
+        console.log('GraphQL Error', graphQLErrors);
+    }
+    if (networkError) {
+        console.log("Network Error", networkError);
+    }
+});
+
+
+const authLink = setContext((_, { headers }) => {
     return {
         headers: {
             ...headers,
@@ -82,7 +95,7 @@ export const cache = new InMemoryCache({
 });
 
 const client = new ApolloClient({
-    link: auth.concat(httpLink),
+    link: authLink.concat(onErrorLink).concat(uploadHttpLink),
     cache
 });
 

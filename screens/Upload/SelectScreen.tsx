@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import * as MediaLibrary from "expo-media-library";
 import { UploadStackScreenProps } from "types";
-import { FlatList, Image, View } from "react-native";
+import { Alert, FlatList, Image, View } from "react-native";
 import styled from "styled-components/native";
 import { Ionicons } from "@expo/vector-icons";
 import Layout from "constants/Layout";
@@ -23,13 +23,29 @@ export default function SelectScreen({ navigation }: UploadStackScreenProps<"Sel
         setPhotos((pre) => [...pre, ...res.assets]);
         setCursor(res.endCursor);
     };
+
     useEffect(() => {
-        getPhoto();
-    }, []);
+        if (photos.length === 0) {
+            getPhoto();
+        }
+        navigation.setOptions({
+            headerRight: () => <CaptionBtn onPress={() => {
+                if (selected.length > 0) {
+                    navigation.navigate("Caption", { photos: selected });
+                } else {
+                    Alert.alert("사진을 한장 이상 선택해주세요.");
+                }
+            }}><CaptionText>다음</CaptionText></CaptionBtn>
+        });
+    }, [selected]);
 
     return (
         <>
-            <Preview uri={selected.length === 0 ? "" : selected[selected.length - 1]} />
+            <Preview uri={selected.length === 0 ? "" : selected[selected.length - 1]}>
+                <TakeNav onPress={() => navigation.navigate("Take")}>
+                    <Ionicons name="camera" style={{ color: "white", opacity: 0.5 }} size={30} />
+                </TakeNav>
+            </Preview>
             <FlatList<MediaLibrary.Asset>
                 data={photos}
                 keyExtractor={(item) => item.filename + item.mediaType}
@@ -55,16 +71,33 @@ const PreviewContainer = styled.TouchableOpacity`
     border: 1px solid black;
 `;
 
-const Preview: React.FC<{ uri: string }> = ({ uri }) => {
+const Preview: React.FC<{ uri: string }> = ({ uri, children }) => {
 
     if (uri === "") {
-        return <View style={{ aspectRatio: 1, width: "100%" }} />;
+        return <View style={{ aspectRatio: 1, width: "100%", backgroundColor: "black", position: "relative" }}>{children}</View>;
     }
-    return <Image resizeMode="contain" style={{ aspectRatio: 1, width: "100%" }} source={{ uri }} />
+    return <View style={{ position: "relative" }}><Image resizeMode="contain" style={{ aspectRatio: 1, width: "100%", backgroundColor: "black" }} source={{ uri }} />{children}</View>;
 }
 
 const CheckBox = styled.View`
     position: absolute;
     bottom: 2px;
     right: 2px;
+`;
+
+const TakeNav = styled.TouchableOpacity`
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 50px;
+    height: 50px;
+    align-items: center;
+    justify-content: center;
+`;
+
+const CaptionBtn = styled.TouchableOpacity``;
+const CaptionText = styled.Text`
+  font-size: 18px;
+  font-weight: bold;
+  color: "rgb(0,149,253)";
 `;

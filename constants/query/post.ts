@@ -114,3 +114,11 @@ export const SEEFEED_QUERY = gql`
     ${FEED_FRAGMENT}
 `;
 
+export const NEWPOST_MUTATION = gql`
+    mutation newPost($photo:[Upload!]! $caption:String!){
+        newPost(photo:$photo, caption: $caption){
+            ok
+            error
+        }
+    }
+`;

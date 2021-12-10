@@ -78,7 +78,7 @@ export type MyProfileStackScreenProps<Screen extends keyof MyProfileStackParamLi
 export type UploadStackParamList = {
   Select: undefined;
   Take: undefined;
-  Caption: undefined;
+  Caption: { photos: string[] };
 };
 
 export type UploadStackScreenProps<Screen extends keyof UploadStackParamList> = NativeStackScreenProps<
