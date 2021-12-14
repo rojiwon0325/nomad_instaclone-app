@@ -107,7 +107,7 @@ export const NEWCOMMENT_MUTATION = gql`
 
 export const SEEFEED_QUERY = gql`
     query seeFeed($account:String! $offset:Int){
-        seeFeed(account:$account, offset: $offset){
+        seeFeed(account:$account offset: $offset){
             ...Feed
         }
     }
@@ -116,7 +116,7 @@ export const SEEFEED_QUERY = gql`
 
 export const NEWPOST_MUTATION = gql`
     mutation newPost($photo:[Upload!]! $caption:String!){
-        newPost(photo:$photo, caption: $caption){
+        newPost(photo:$photo caption: $caption){
             ok
             error
         }

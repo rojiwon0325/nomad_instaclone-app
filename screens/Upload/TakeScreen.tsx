@@ -54,8 +54,8 @@ export default function TakeScreen({ navigation }: UploadStackScreenProps<"Take"
                     if (camera.current && cameraReady) {
                         setCameraReady(false);
                         camera.current.pausePreview();
-                        const { uri } = await camera.current.takePictureAsync({ quality: 1, exif: true });
-                        navigation.navigate("Caption", { photos: [uri] });
+                        const photo = await camera.current.takePictureAsync({ quality: 1, exif: true });
+                        navigation.navigate("Caption", { photos: photo });
                     }
                 }}>
                     <TakeIn />

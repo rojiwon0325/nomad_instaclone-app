@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { AuthStackScreenProps } from 'types';
 import styled from 'styled-components/native';
 import { AuthInput, AuthLayout, BlueBtn, BlueLink, Logo } from '@components';
@@ -12,22 +12,27 @@ import { getMe } from '@Igql/getMe';
 
 export default function SignInScreen({ navigation, route }: AuthStackScreenProps<"SignIn">) {
     const last = useRef<TextInput>(null);
-    const { params } = route;
-    const [startQueryFn] = useLazyQuery<getMe>(GETME_QUERY);
+    const [loging, setLog] = useState(false);
+    //const { params } = route;
+    const [startQueryFn, { data }] = useLazyQuery<getMe>(GETME_QUERY);
 
     const { control, handleSubmit, formState: { isValid, errors }, reset } = useForm<{ account: string, password: string }>({ mode: "onChange" });
     const [login, { loading }] = useMutation<login>(LOGIN_MUTATION, {
         onCompleted: async ({ login: { ok, error, token } }) => {
+            setLog(true);
             if (ok && token) {
                 await setLogin(token);
-                const res = await startQueryFn();
-                if (res.data?.getMe === null) {
+                await startQueryFn();
+                if (data?.getMe === null) {
+                    console.log("I have a token, but i cant access login: ");
                     reset();
+                    setLog(false);
                 } else {
+                    console.log("going to root");
                     navigation.reset({ index: 0, routes: [{ name: "Root" }] });
                 }
             } else {
-                console.log(error);
+                console.log("error: ", error);
                 //error message 창 만들것
             }
         },
@@ -80,7 +85,7 @@ export default function SignInScreen({ navigation, route }: AuthStackScreenProps
                 )}
             />
             <Margin />
-            <BlueBtn disabled={!isValid || loading} loading={loading} onPress={handleSubmit(variables => loading ? null : login({ variables }))}>
+            <BlueBtn disabled={!isValid || loading || loging} loading={loading || loging} onPress={handleSubmit(variables => login({ variables }))}>
                 로그인
             </BlueBtn>
             <Margin />

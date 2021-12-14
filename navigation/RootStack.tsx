@@ -8,6 +8,7 @@ import { getMe } from '@Igql/getMe';
 import { GETME_QUERY } from '@constants/query/account';
 import ProfileNavigator from './ProfileStack';
 import UploadNavigator from './UploadStack';
+import { logout } from '@constants/ApolloClient';
 
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -17,6 +18,7 @@ export default function RootNavigator({ navigation }: AuthStackScreenProps<"Root
 
   useEffect(() => {
     if (data?.getMe === null) {
+      logout();
       navigation.reset({ index: 0, routes: [{ name: "SignIn" }] });
     }
   }, [data?.getMe]);

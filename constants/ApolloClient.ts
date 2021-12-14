@@ -4,6 +4,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getMe_getMe } from "@Igql/getMe";
 import { onError } from "@apollo/client/link/error";
 import { createUploadLink } from "apollo-upload-client";
+import _ from "lodash";
 
 
 const TOKEN = 'jwt';
@@ -26,7 +27,7 @@ export const logout = async () => {
 };
 
 const uploadHttpLink = createUploadLink({
-    uri: 'https://quiet-walrus-4.loca.lt/graphql',
+    uri: 'http://localhost:4000/graphql'
 });
 
 const onErrorLink = onError(({ graphQLErrors, networkError }) => {
@@ -58,7 +59,11 @@ export const cache = new InMemoryCache({
             fields: {
                 seePost: {
                     keyArgs: ["id", "account"],
-                    merge: (exi = [], inc = []) => [...exi, ...inc]
+                    merge: (exi = [], inc = []) => {
+
+                        //return _.uniqBy([...exi, ...inc], "id");
+                        return [...exi, ...inc];
+                    }
                 },
                 seeFeed: {
                     keyArgs: ["account"],

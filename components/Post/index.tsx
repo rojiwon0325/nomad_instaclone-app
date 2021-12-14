@@ -45,11 +45,13 @@ const Post: React.FC<{ data: seePost_seePost }> = ({ data: { id, photo, detail, 
                     <Info>좋아요 <Bold>{like}</Bold>개</Info>
                 </TextWrap>
                 <TextWrap>
-                    <User account={account} /><Info> {
+                    <User account={account} />
+                    <Info> {
                         caption.slice(0, captionSlice).join("\n")
                     }{caption.length > captionSlice ? <MoreBtn activeOpacity={1} onPress={(e) => {
                         setSlice((pre) => pre + 3);
-                    }}><More>...더보기</More></MoreBtn> : null}</Info>
+                    }}><More>...더보기</More></MoreBtn> : null}
+                    </Info>
                 </TextWrap>
                 {comment > 0 ?
                     <TextWrap>
@@ -89,6 +91,7 @@ const TextWrap = styled.TouchableOpacity.attrs({
 `;
 
 const Info = styled.Text`
+    flex:1;
     color:${({ theme }) => theme.colors.text};
     font-size: 16px;
     font-weight: 500;

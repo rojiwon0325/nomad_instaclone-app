@@ -6,6 +6,9 @@
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { CompositeScreenProps, NavigatorScreenParams } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { CameraCapturedPicture } from 'expo-camera';
+
+import * as MediaLibrary from "expo-media-library";
 
 declare global {
   namespace ReactNavigation {
@@ -78,7 +81,7 @@ export type MyProfileStackScreenProps<Screen extends keyof MyProfileStackParamLi
 export type UploadStackParamList = {
   Select: undefined;
   Take: undefined;
-  Caption: { photos: string[] };
+  Caption: { photos: MediaLibrary.Asset[] | CameraCapturedPicture };
 };
 
 export type UploadStackScreenProps<Screen extends keyof UploadStackParamList> = NativeStackScreenProps<

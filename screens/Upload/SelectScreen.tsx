@@ -7,12 +7,14 @@ import { Ionicons } from "@expo/vector-icons";
 import Layout from "constants/Layout";
 
 export default function SelectScreen({ navigation }: UploadStackScreenProps<"Select">) {
-    const [selected, setSelect] = useState<string[]>([]);
+    const [selected, setSelect] = useState<MediaLibrary.Asset[]>([]);
     const [endCursor, setCursor] = useState<string | undefined>(undefined);
     const [photos, setPhotos] = useState<MediaLibrary.Asset[]>([]);
-    const select = (uri: string) => setSelect((pre) =>
-        pre.includes(uri) ? pre.filter(elem => elem !== uri) : [...pre, uri]
+
+    const select = (asset: MediaLibrary.Asset) => setSelect((pre) =>
+        pre.includes(asset) ? pre.filter(elem => elem !== asset) : [...pre, asset]
     );
+
     const refreshPhoto = async () => {
         const res = await MediaLibrary.getAssetsAsync({ mediaType: "photo" });
         setPhotos(res.assets);
@@ -37,11 +39,12 @@ export default function SelectScreen({ navigation }: UploadStackScreenProps<"Sel
                 }
             }}><CaptionText>다음</CaptionText></CaptionBtn>
         });
+        return
     }, [selected]);
 
     return (
         <>
-            <Preview uri={selected.length === 0 ? "" : selected[selected.length - 1]}>
+            <Preview uri={selected.length === 0 ? "" : selected[selected.length - 1].uri}>
                 <TakeNav onPress={() => navigation.navigate("Take")}>
                     <Ionicons name="camera" style={{ color: "white", opacity: 0.5 }} size={30} />
                 </TakeNav>
@@ -50,11 +53,11 @@ export default function SelectScreen({ navigation }: UploadStackScreenProps<"Sel
                 data={photos}
                 keyExtractor={(item) => item.filename + item.mediaType}
                 numColumns={4}
-                renderItem={({ item: { uri } }) => (
-                    <PreviewContainer onPress={() => select(uri)}>
-                        <Preview uri={uri} />
+                renderItem={({ item }) => (
+                    <PreviewContainer onPress={() => select(item)}>
+                        <Preview uri={item.uri} />
                         <CheckBox>
-                            <Ionicons name="checkmark-circle" size={18} color={selected.includes(uri) ? "rgb(0,149,253)" : "white"} />
+                            <Ionicons name="checkmark-circle" size={18} color={selected.includes(item) ? "rgb(0,149,253)" : "white"} />
                         </CheckBox>
                     </PreviewContainer>
                 )}
