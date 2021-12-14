@@ -15,7 +15,7 @@ export interface Post_detail_comments__count {
 export interface Post_detail_comments {
   __typename: "Comment";
   id: number;
-  text: string[];
+  text: string;
   rootId: string | null;
   account: string;
   createdAt: string;
@@ -26,7 +26,7 @@ export interface Post_detail_comments {
 export interface Post_detail {
   __typename: "Post_detail";
   isMine: boolean;
-  caption: string[];
+  caption: string;
   account: string;
   isLiked: boolean;
   createdAt: string;

@@ -24,18 +24,42 @@ export const SIMPLEUSER_FRAGMENT = gql`
 `;
 
 export const USER_FRAGMENT = gql`
-    ${SIMPLEUSER_FRAGMENT}
-    ${PROFILE_FRAGMENT}
     fragment User on User{
         ...SimpleUser
         profile{
             ...Profile
         }
     }
+    ${SIMPLEUSER_FRAGMENT}
+    ${PROFILE_FRAGMENT}
 `;
 
+export const CHAT_FRAGMENT = gql`
+    fragment CHAT on Chat{
+        id
+        text
+        read
+        roomId
+        account
+        createdAt
+    }
+`;
 
-
+export const CHATROOM_FRAGMENT = gql`
+    fragment ChatRoom on ChatRoom{
+        id
+        user{
+            account
+            username
+            avatarUrl
+        }
+        chat{
+            ...CHAT
+        }
+        updatedAt
+    }
+    ${CHAT_FRAGMENT}
+`;
 
 export const LOGIN_MUTATION = gql`
     mutation login($account:String! $password:String!){
@@ -132,4 +156,13 @@ export const SEARCHUSERS_QUERY = gql`
         }
     }
     ${SIMPLEUSER_FRAGMENT}
+`;
+
+export const SEEROOMLIST_QUERY = gql`
+    query seeRoomList($offset:Int){
+        seeRoomList(offset: $offset){
+            ...ChatRoom
+        }
+    }
+    ${CHATROOM_FRAGMENT}
 `;

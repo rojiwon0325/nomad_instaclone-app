@@ -20,7 +20,7 @@ export default function HomeTabNavigator({ navigation }: RootStackScreenProps<"H
             <Tab.Screen
                 name="Main"
                 component={MainScreen}
-                options={{ headerLeft: () => <LogoWrap><Logo /></LogoWrap>, headerRightContainerStyle: { paddingRight: 15 }, headerRight: () => <Plane name="paper-plane-outline" size={25} />, tabBarIcon: (props) => <TabBarIcon name='home' props={props} /> }}
+                options={{ headerLeft: () => <LogoWrap><Logo /></LogoWrap>, headerRightContainerStyle: { paddingRight: 15 }, headerRight: () => <Touch onPress={() => navigation.navigate("DC")}><Plane name="paper-plane-outline" size={25} /></Touch>, tabBarIcon: (props) => <TabBarIcon name='home' props={props} /> }}
             />
             <Tab.Screen
                 name="Search"

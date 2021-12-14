@@ -28,7 +28,8 @@ export default function CaptionScreen({ navigation, route }: UploadStackScreenPr
             } else {
                 Alert.alert("완료되었습니다.");
             }
-        }
+        },
+        refetchQueries: [{ query: SEEPOST_QUERY }]
     });
     const UploadFn = async () => {
         const { caption } = getValues();

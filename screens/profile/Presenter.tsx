@@ -7,7 +7,7 @@ import { Avatar, Feed, MarginH, MarginV } from "@components";
 import { useQuery } from "@apollo/client";
 import { SEEFEED_QUERY } from "@constants/query/post";
 import { useNavigation } from "@react-navigation/native";
-import { MyProfileStackParamList, ProfileStackParamList, ProfileStackScreenProps } from "types";
+import { MyProfileStackParamList, ProfileStackParamList } from "types";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 const Presenter: React.FC<{ seeProfile: seeProfile_seeProfile }> = ({ seeProfile }) => {
@@ -31,7 +31,7 @@ const Presenter: React.FC<{ seeProfile: seeProfile_seeProfile }> = ({ seeProfile
                             {profile?._count ? <Count number={true}>{profile._count.follower}</Count> : null}
                             <Count>팔로워</Count>
                         </CountWrap>
-                        <CountWrap activeOpacity={1} onPress={() => { navigation.navigate("Follower", { account: seeProfile.account }) }}>
+                        <CountWrap activeOpacity={1} onPress={() => { navigation.navigate("Following", { account: seeProfile.account }) }}>
                             {profile?._count ? <Count number={true}>{profile._count.following}</Count> : null}
                             <Count>팔로잉</Count>
                         </CountWrap>
@@ -52,6 +52,8 @@ const Presenter: React.FC<{ seeProfile: seeProfile_seeProfile }> = ({ seeProfile
                     </Bot>
                 </UserInfo>
             }
+            numColumns={3}
+            columnWrapperStyle={{ justifyContent: "space-between", paddingHorizontal: 10 }}
             renderItem={({ item: { photo }, index }) => (
                 <Feed index={index} photo={photo} account={account} />
             )}

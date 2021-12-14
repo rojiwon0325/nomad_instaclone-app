@@ -15,7 +15,7 @@ export interface newComment_newComment_comment__count {
 export interface newComment_newComment_comment {
   __typename: "Comment";
   id: number;
-  text: string[];
+  text: string;
   rootId: string | null;
   account: string;
   createdAt: string;

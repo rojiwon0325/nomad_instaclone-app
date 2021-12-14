@@ -1,4 +1,5 @@
 import { ApolloCache, useMutation } from '@apollo/client';
+import { SEELIKE_QUERY } from '@constants/query/account';
 import { DOLIKE_MUTATION, DOUNLIKE_MUTATION } from '@constants/query/post';
 import { Ionicons } from '@expo/vector-icons';
 import useColorScheme from '@hooks/useColorScheme';
@@ -10,7 +11,7 @@ import styled from 'styled-components/native';
 
 const Buttons: React.FC<{ isLiked: boolean, id: number }> = ({ isLiked, id }) => {
     const isDark = useColorScheme() === 'dark';
-    const updateCache = (cache: ApolloCache<any>, type: boolean | null) =>
+    const updateCache = (cache: ApolloCache<any>, type: boolean | null) => {
         cache.modify({
             id: `Post:${id}`, fields: {
                 _count: (prev: seePost_seePost__count) => ({
@@ -21,6 +22,7 @@ const Buttons: React.FC<{ isLiked: boolean, id: number }> = ({ isLiked, id }) =>
 
             }
         });
+    }
 
     const [doLike, { loading: loadingLike }] = useMutation<doLike>(DOLIKE_MUTATION, {
         variables: { id },
@@ -28,7 +30,8 @@ const Buttons: React.FC<{ isLiked: boolean, id: number }> = ({ isLiked, id }) =>
             if (result.data?.doLike.ok || result.data?.doLike.error === "P2002") {
                 updateCache(cache, result.data.doLike.type);
             }
-        }
+        },
+        refetchQueries: [{ query: SEELIKE_QUERY, variables: { id } }]
     });
     const [doUnLike, { loading: loadingUnLike }] = useMutation<doUnLike>(DOUNLIKE_MUTATION, {
         variables: { id },
@@ -36,7 +39,8 @@ const Buttons: React.FC<{ isLiked: boolean, id: number }> = ({ isLiked, id }) =>
             if (result.data?.doUnLike.ok || result.data?.doUnLike.error === "P2025") {
                 updateCache(cache, result.data.doUnLike.type);
             }
-        }
+        },
+        refetchQueries: [{ query: SEELIKE_QUERY, variables: { id } }]
     });
 
     return (

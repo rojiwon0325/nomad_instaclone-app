@@ -39,7 +39,6 @@ export default function SelectScreen({ navigation }: UploadStackScreenProps<"Sel
                 }
             }}><CaptionText>다음</CaptionText></CaptionBtn>
         });
-        return
     }, [selected]);
 
     return (

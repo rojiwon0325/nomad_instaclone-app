@@ -15,7 +15,7 @@ export interface seeComment_seeComment__count {
 export interface seeComment_seeComment {
   __typename: "Comment";
   id: number;
-  text: string[];
+  text: string;
   rootId: string | null;
   account: string;
   createdAt: string;

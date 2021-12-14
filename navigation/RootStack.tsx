@@ -9,6 +9,7 @@ import { GETME_QUERY } from '@constants/query/account';
 import ProfileNavigator from './ProfileStack';
 import UploadNavigator from './UploadStack';
 import { logout } from '@constants/ApolloClient';
+import DCNavigator from './DCStack';
 
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -33,6 +34,7 @@ export default function RootNavigator({ navigation }: AuthStackScreenProps<"Root
       <Stack.Screen name="Home" component={HomeTabNavigator} />
       <Stack.Screen name="Profile" component={ProfileNavigator} options={{ headerShown: true }} />
       <Stack.Screen name="Upload" component={UploadNavigator} options={{ headerShown: false, animation: "none" }} />
+      <Stack.Screen name="DC" component={DCNavigator} />
       <Stack.Group screenOptions={{ presentation: "modal", headerShown: true }}>
         <Stack.Screen name="Like" component={LikeScreen} />
         <Stack.Screen name="Comment" component={ModalScreen} />

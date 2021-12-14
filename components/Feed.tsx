@@ -20,9 +20,10 @@ const Feed: React.FC<{ index: number, photo: string[], account: string }> = ({ i
 };
 
 const Container = styled.TouchableOpacity`
-    width: 30%;
+    width: 33.334%;
     aspect-ratio: 1;
     background-color: ${({ theme }) => theme.colors.bar};
+    border: 1px solid ${({ theme }) => theme.colors.background};
 `;
 
 const Img = styled.Image`

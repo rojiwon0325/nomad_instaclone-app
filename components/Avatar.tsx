@@ -15,9 +15,9 @@ const Avatar: React.FC<{ avatarUrl: string, account?: string }> = ({ avatarUrl, 
 
 const Container = styled.TouchableOpacity`
     background-color: "rgba(0,0,0,0)";
+    height: 100%;
     aspect-ratio: 1;
     border-radius: 1000px;
-    height: 100%;
     align-items: center;
     justify-content: center;
     overflow: hidden;

@@ -19,6 +19,8 @@ const Text = styled.Text`
 
 const Container = styled.TouchableOpacity`
     background-color: "rgba(0,0,0,0)";
+    padding: 0;
+    margin-bottom:-3px;
 `;
 
 

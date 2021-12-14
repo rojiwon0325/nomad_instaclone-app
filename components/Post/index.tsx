@@ -1,25 +1,25 @@
 import React, { useState } from 'react';
 import styled from 'styled-components/native';
-import { ApolloQueryResult, OperationVariables } from '@apollo/client';
-import { seePost, seePost_seePost } from '@Igql/seePost';
+import { seePost_seePost } from '@Igql/seePost';
 import Avatar from '../Avatar';
 import User from "../User";
 import { Platform, useWindowDimensions, View } from 'react-native';
 import Buttons from './Buttons';
 import MarginH from 'components/MarginH';
 import { useNavigation } from '@react-navigation/native';
+import useDateCalc from '@hooks/useDateCalc';
 
 const Swiper = Platform.OS !== "web" ? require("react-native-swiper") : null;
 
 const Post: React.FC<{ data: seePost_seePost }> = ({ data: { id, photo, detail, _count } }) => {
-    const [captionSlice, setSlice] = useState(2);
+    const [captionMore, setMore] = useState(false);
     const navigation = useNavigation();
     const WIDTH = useWindowDimensions().width;
     if (detail === null || _count === null) {
         return null;
     }
     const { account, avatarUrl, caption, createdAt, isLiked } = detail;
-    const date = new Date(Number(createdAt)).toLocaleDateString("ko");
+    const date = useDateCalc(createdAt);
     const { like, comment } = _count;
 
     return (
@@ -45,12 +45,17 @@ const Post: React.FC<{ data: seePost_seePost }> = ({ data: { id, photo, detail, 
                     <Info>좋아요 <Bold>{like}</Bold>개</Info>
                 </TextWrap>
                 <TextWrap>
-                    <User account={account} />
-                    <Info> {
-                        caption.slice(0, captionSlice).join("\n")
-                    }{caption.length > captionSlice ? <MoreBtn activeOpacity={1} onPress={(e) => {
-                        setSlice((pre) => pre + 3);
-                    }}><More>...더보기</More></MoreBtn> : null}
+                    <Info>
+                        <User account={account} />
+                        &nbsp;
+                        {
+                            captionMore ? caption : caption.slice(0, 10)
+                        }
+                        {
+                            caption.length > 10 && !captionMore
+                                ? <MoreBtn activeOpacity={0} onPress={() => setMore(true)}><More>...더보기</More></MoreBtn>
+                                : null
+                        }
                     </Info>
                 </TextWrap>
                 {comment > 0 ?
