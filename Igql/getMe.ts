@@ -29,6 +29,7 @@ export interface getMe_getMe {
   isMe: boolean | null;
   isFollowing: boolean | null;
   isRequesting: boolean | null;
+  isRequested: boolean | null;
   profile: getMe_getMe_profile | null;
 }
 

@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { AuthStackScreenProps } from 'types';
 import styled from 'styled-components/native';
 import { AuthInput, AuthLayout, BlueBtn, BlueLink, Logo } from '@components';
-import { TextInput } from 'react-native';
+import { Alert, TextInput } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import { useLazyQuery, useMutation } from '@apollo/client';
 import { GETME_QUERY, LOGIN_MUTATION } from '@constants/query/account';
@@ -10,38 +10,41 @@ import { login as setLogin } from '@constants/ApolloClient';
 import { login } from '@Igql/login';
 import { getMe } from '@Igql/getMe';
 
-export default function SignInScreen({ navigation, route }: AuthStackScreenProps<"SignIn">) {
+export default function SignInScreen({ navigation, route: { params } }: AuthStackScreenProps<"SignIn">) {
+    const first = useRef<TextInput>(null);
     const last = useRef<TextInput>(null);
-    const [loging, setLog] = useState(false);
-    //const { params } = route;
+    const [loading, setLoad] = useState(false);
     const [startQueryFn, { data }] = useLazyQuery<getMe>(GETME_QUERY);
 
-    const { control, handleSubmit, formState: { isValid, errors }, reset } = useForm<{ account: string, password: string }>({ mode: "onChange" });
-    const [login, { loading }] = useMutation<login>(LOGIN_MUTATION, {
+    const { control, handleSubmit, formState: { isValid }, reset } = useForm<{ account: string, password: string }>({ mode: "onChange" });
+
+    useEffect(() => { reset(params) }, [params]);
+
+    const [login] = useMutation<login>(LOGIN_MUTATION, {
         onCompleted: async ({ login: { ok, error, token } }) => {
-            setLog(true);
             if (ok && token) {
                 await setLogin(token);
                 await startQueryFn();
                 if (data?.getMe === null) {
                     console.log("I have a token, but i cant access login: ");
                     reset();
-                    setLog(false);
                 } else {
                     console.log("going to root");
                     navigation.reset({ index: 0, routes: [{ name: "Root" }] });
                 }
-            } else {
-                console.log("error: ", error);
-                //error message 창 만들것
+            } else if (error) {
+                Alert.alert("로그인 실패", error, [{
+                    text: "ok", onPress: () => {
+                        reset();
+                        first.current?.focus();
+                    }
+                }, {
+                    text: "cancel"
+                }]);
             }
+            setLoad(false);
         },
     });
-    /**
-    useEffect(() => {
-        reset(params);
-    }, [params]);
-    */
     return (
         <AuthLayout>
             <LogoWrap>
@@ -54,6 +57,7 @@ export default function SignInScreen({ navigation, route }: AuthStackScreenProps
                 render={({ field: { onChange, onBlur, value } }) => (
                     <AuthInput placeholder="사용자 계정"
                         autoFocus
+                        ref={first}
                         autoCapitalize={"none"}
                         autoCorrect={false}
                         placeholderTextColor={"rgb(142,142,142)"}
@@ -85,7 +89,7 @@ export default function SignInScreen({ navigation, route }: AuthStackScreenProps
                 )}
             />
             <Margin />
-            <BlueBtn disabled={!isValid || loading || loging} loading={loading || loging} onPress={handleSubmit(variables => login({ variables }))}>
+            <BlueBtn disabled={!isValid || loading} loading={loading} onPress={handleSubmit(variables => { setLoad(true); login({ variables }); })}>
                 로그인
             </BlueBtn>
             <Margin />

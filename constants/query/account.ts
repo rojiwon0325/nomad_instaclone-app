@@ -20,6 +20,7 @@ export const SIMPLEUSER_FRAGMENT = gql`
         isMe
         isFollowing
         isRequesting
+        isRequested
     }
 `;
 
@@ -165,4 +166,13 @@ export const SEEROOMLIST_QUERY = gql`
         }
     }
     ${CHATROOM_FRAGMENT}
+`;
+
+export const RESPONSEFOLLOW_MUTATION = gql`
+    mutation responseFollow($account:String! $accept: Boolean!){
+        responseFollow(account: $account, accept: $accept) {
+            ok
+            error
+        }
+    }
 `;

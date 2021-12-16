@@ -32,10 +32,10 @@ export default function RootNavigator({ navigation }: AuthStackScreenProps<"Root
   return (
     <Stack.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Home" component={HomeTabNavigator} />
-      <Stack.Screen name="Profile" component={ProfileNavigator} options={{ headerShown: true }} />
+      <Stack.Screen name="Profile" component={ProfileNavigator} />
       <Stack.Screen name="Upload" component={UploadNavigator} options={{ headerShown: false, animation: "none" }} />
       <Stack.Screen name="DC" component={DCNavigator} />
-      <Stack.Group screenOptions={{ presentation: "modal", headerShown: true }}>
+      <Stack.Group screenOptions={{ headerShown: true }}>
         <Stack.Screen name="Like" component={LikeScreen} />
         <Stack.Screen name="Comment" component={ModalScreen} />
       </Stack.Group>

@@ -15,6 +15,7 @@ export interface seeLike_seeLike {
   isMe: boolean | null;
   isFollowing: boolean | null;
   isRequesting: boolean | null;
+  isRequested: boolean | null;
 }
 
 export interface seeLike {

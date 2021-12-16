@@ -5,6 +5,7 @@ import { getMe_getMe } from "@Igql/getMe";
 import { onError } from "@apollo/client/link/error";
 import { createUploadLink } from "apollo-upload-client";
 import _ from "lodash";
+import { GETME_QUERY } from "./query/account";
 
 
 const TOKEN = 'jwt';
@@ -19,11 +20,13 @@ export const login = async (token: string) => {
 };
 
 export const logout = async () => {
-    await AsyncStorage.removeItem(TOKEN);
-    await AsyncStorage.clear();
-    await client.clearStore();
     jwToken(null);
     isLogin(false);
+    Promise.all([
+        AsyncStorage.removeItem(TOKEN),
+        AsyncStorage.clear(),
+        client.clearStore()
+    ]);
 };
 
 const uploadHttpLink = createUploadLink({
@@ -49,6 +52,10 @@ const authLink = setContext((_, { headers }) => {
     }
 });
 
+const filtering = (array: any[]) => {
+    return array.filter((item1, idx) => array.findIndex(item2 => item1.__ref === item2.__ref) === idx);
+}
+
 
 export const cache = new InMemoryCache({
     typePolicies: {
@@ -59,11 +66,7 @@ export const cache = new InMemoryCache({
             fields: {
                 seePost: {
                     keyArgs: ["id", "account"],
-                    merge: (exi = [], inc = []) => {
-
-                        //return _.uniqBy([...exi, ...inc], "id");
-                        return [...exi, ...inc];
-                    }
+                    merge: (exi = [], inc = []) => filtering([...exi, ...inc]),
                 },
                 seeFeed: {
                     keyArgs: ["account"],
@@ -73,26 +76,26 @@ export const cache = new InMemoryCache({
                         } else if (exi === null) {
                             return inc;
                         } else {
-                            return [...exi, ...inc];
+                            return filtering([...exi, ...inc]);
                         }
                     }
                 },
                 seeLike: {
                     keyArgs: ["id"],
-                    merge: (exi = [], inc = []) => [...exi, ...inc]
+                    merge: (exi = [], inc = []) => filtering([...exi, ...inc]),
                 },
                 seeFollower: {
                     keyArgs: ["account"],
-                    merge: (exi = [], inc = []) => [...exi, ...inc]
+                    merge: (exi = [], inc = []) => filtering([...exi, ...inc]),
                 },
                 seeFollowing: {
                     keyArgs: ["account"],
-                    merge: (exi = [], inc = []) => [...exi, ...inc]
+                    merge: (exi = [], inc = []) => filtering([...exi, ...inc]),
                 },
                 seeComment: {
                     keyArgs: ["postId", "rootId"],
-                    merge: (exi = [], inc = []) => [...exi, ...inc]
-                }
+                    merge: (exi = [], inc = []) => filtering([...exi, ...inc]),
+                },
             }
         }
 

@@ -29,6 +29,7 @@ export interface seeProfile_seeProfile {
   isMe: boolean | null;
   isFollowing: boolean | null;
   isRequesting: boolean | null;
+  isRequested: boolean | null;
   profile: seeProfile_seeProfile_profile | null;
 }
 

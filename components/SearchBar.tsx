@@ -2,7 +2,7 @@ import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import styled from "styled-components/native";
 
-const SearchBar: React.FC<{ onValid: ({ key }: { key: string }) => void }> = ({ onValid }) => {
+const SearchBar: React.FC<{ onValid: ({ key }: { key: string }) => void, onInValid: () => void }> = ({ onValid, onInValid }) => {
     const { control, handleSubmit } = useForm<{ key: string }>();
     return (
         <Wrap>
@@ -17,7 +17,7 @@ const SearchBar: React.FC<{ onValid: ({ key }: { key: string }) => void }> = ({ 
                         autoCorrect={false}
                         placeholderTextColor={"rgb(142,142,142)"}
                         returnKeyType="search"
-                        onSubmitEditing={handleSubmit(onValid)}
+                        onSubmitEditing={handleSubmit(onValid, onInValid)}
                         value={value}
                         onChangeText={onChange}
                         onBlur={onBlur}

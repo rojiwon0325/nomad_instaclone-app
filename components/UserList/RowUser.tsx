@@ -7,9 +7,10 @@ import { useMutation } from "@apollo/client";
 import { REQUESTFOLLOW_MUTATION } from "@constants/query/account";
 import { requestFollow } from "@Igql/requestFollow";
 import { SimpleUser } from "@Igql/SimpleUser";
+import { useNavigation } from "@react-navigation/native";
 
 const Row: React.FC<{ user: SimpleUser }> = ({ user }) => {
-
+    const navigation = useNavigation();
     const [follow, { loading }] = useMutation<requestFollow>(REQUESTFOLLOW_MUTATION, {
         variables: { account: user.account },
         update: (cache, result) => {
@@ -24,10 +25,8 @@ const Row: React.FC<{ user: SimpleUser }> = ({ user }) => {
         },
     });
 
-
-
     return (
-        <Container>
+        <Container onPress={() => navigation.navigate("Profile", { screen: "Main", params: { account: user.account } })}>
             <Avatar avatarUrl={user.avatarUrl} />
             <MarginH size="10px" />
             <Info>
@@ -49,7 +48,7 @@ const Row: React.FC<{ user: SimpleUser }> = ({ user }) => {
 
 export default Row;
 
-const Container = styled.View`
+const Container = styled.TouchableOpacity`
     width: 100%;
     height: 80px;
     padding: 10px 20px;

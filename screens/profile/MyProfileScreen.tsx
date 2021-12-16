@@ -7,7 +7,7 @@ import { HomeTabScreenProps } from 'types';
 import Presenter from './Presenter';
 
 export default function ProfileScreen({ }: HomeTabScreenProps<"MyProfile">) {
-    const { data } = useQuery<getMe>(GETME_QUERY);
+    const { data, refetch } = useQuery<getMe>(GETME_QUERY);
 
     if (!data) {
         return <ActivityIndicator />
@@ -16,5 +16,5 @@ export default function ProfileScreen({ }: HomeTabScreenProps<"MyProfile">) {
         return null;
     }
 
-    return (<Presenter seeProfile={data.getMe} />);
+    return (<Presenter seeProfile={data.getMe} refetch={refetch} />);
 };

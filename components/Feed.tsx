@@ -12,7 +12,7 @@ const Feed: React.FC<{ index: number, photo: string[], account: string }> = ({ i
             )}>
             {
                 photo.length > 0 ?
-                    <Img source={{ uri: photo[0] }} resizeMode="contain" />
+                    <Img source={{ uri: photo[0] }} resizeMode="cover" />
                     : null
             }
         </Container >

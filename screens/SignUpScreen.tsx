@@ -1,9 +1,9 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { AuthStackParamList } from 'types';
 import styled from 'styled-components/native';
 import { AuthInput, AuthLayout, BlueBtn, BlueLink, Logo } from '@components';
-import { TextInput } from 'react-native';
+import { Alert, TextInput } from 'react-native';
 import { Controller, useForm } from 'react-hook-form';
 import { useMutation } from '@apollo/client';
 import { newAccount } from 'Igql/newAccount';
@@ -12,17 +12,25 @@ import { NEWACCOUNT_MUTATION } from '@constants/query/account';
 export default function SignInScreen({ navigation }: NativeStackScreenProps<AuthStackParamList, "SignUp">) {
     const next = useRef<TextInput>(null);
     const last = useRef<TextInput>(null);
-    const { control, handleSubmit, getValues, formState: { isValid, errors }, setError } = useForm<{ result: string, account: string, username: string, password: string }>({ mode: "onChange" });
-    const [join, { loading }] = useMutation<newAccount>(NEWACCOUNT_MUTATION, {
+    const [loading, setLoad] = useState(false);
+    const { control, handleSubmit, getValues, formState: { isValid }, reset } = useForm<{ account: string, username: string, password: string }>({ mode: "onChange" });
+    const [join, { loading: joinLoading }] = useMutation<newAccount>(NEWACCOUNT_MUTATION, {
         onCompleted: ({ newAccount: { ok, error } }) => {
             if (ok) {
-                const { account, password } = getValues();
-                navigation.navigate("SignIn", { account, password });
-            } else {
-                console.log(error);
-                setError("result", { message: error ?? undefined });
-                //error message 창 만들것
+                Alert.alert("신규 가입을 환영합니다.", "", [{
+                    text: "ok", onPress: () => {
+                        const { account, password } = getValues();
+                        navigation.navigate("SignIn", { account, password });
+                    }
+                }]);
+            } else if (error) {
+                Alert.alert("회원가입 실패", error, [{
+                    text: "ok", onPress: () => reset()
+                }, {
+                    text: "cancel"
+                }]);
             }
+            setLoad(false);
         }
     });
 
@@ -52,7 +60,7 @@ export default function SignInScreen({ navigation }: NativeStackScreenProps<Auth
             <Controller
                 control={control}
                 name="username"
-                rules={{ required: true, minLength: 5 }}
+                rules={{ required: true, minLength: 2 }}
                 render={({ field: { onChange, onBlur, value } }) => (
                     <AuthInput placeholder="사용자 이름"
                         ref={next}
@@ -86,7 +94,7 @@ export default function SignInScreen({ navigation }: NativeStackScreenProps<Auth
                 )}
             />
             <Margin />
-            <BlueBtn disabled={!isValid || loading} loading={loading} onPress={handleSubmit(variables => loading ? null : join({ variables }))}>
+            <BlueBtn disabled={!isValid || loading} loading={loading} onPress={handleSubmit(variables => { setLoad(true); join({ variables }); })}>
                 회원가입
             </BlueBtn>
             <Margin />

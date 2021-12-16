@@ -8,7 +8,6 @@ import { useLazyQuery, useMutation } from "@apollo/client";
 import { newPost } from "@Igql/newPost";
 import { NEWPOST_MUTATION, SEEPOST_QUERY } from "@constants/query/post";
 import { ReactNativeFile } from "apollo-upload-client";
-import { getAssetInfoAsync } from "expo-media-library";
 import { useNavigation } from "@react-navigation/native";
 import { seePost } from "@Igql/seePost";
 
@@ -20,11 +19,14 @@ export default function CaptionScreen({ navigation, route }: UploadStackScreenPr
     const [newPost, { loading }] = useMutation<newPost>(NEWPOST_MUTATION, {
         onCompleted: async ({ newPost: { ok, error } }) => {
             if (ok) {
-                Alert.alert("게시물을 업로드 하였습니다.");
-                await QueryStartFn();
-                nav.navigate("Home");
+                Alert.alert("업로드", "게시물이 업로드 되었습니다.", [{
+                    text: "ok", onPress: async () => {
+                        QueryStartFn();
+                        nav.navigate("Home");
+                    }
+                }]);
             } else if (error) {
-                Alert.alert("업로드에 실패하였습니다.\n", error);
+                Alert.alert("업로드 실패", error);
             } else {
                 Alert.alert("완료되었습니다.");
             }
@@ -34,38 +36,23 @@ export default function CaptionScreen({ navigation, route }: UploadStackScreenPr
     const UploadFn = async () => {
         const { caption } = getValues();
         try {
-            if ("uri" in photos) {
+            const photo: ReactNativeFile[] = [];
+            photos.forEach((uri, idx) => {
+                const file = new ReactNativeFile({
+                    uri,
+                    name: "take" + idx,
+                    type: "image/jpeg",
+                });
+                photo.push(file);
+            });
+            if (photo.length > 0) {
                 await newPost({
                     variables: {
                         caption: caption ?? "",
-                        photo: new ReactNativeFile({
-                            uri: photos.uri,
-                            name: "take",
-                            type: "image/jpeg",
-                        })
+                        photo
                     }
                 });
-            } else {
-                const photo: ReactNativeFile[] = [];
-                const infos = await Promise.all(photos.map(asset => getAssetInfoAsync(asset)));
-                infos.forEach(({ localUri }, idx) => {
-                    if (localUri) {
-                        const file = new ReactNativeFile({
-                            uri: localUri,
-                            name: "take" + idx,
-                            type: "image/jpeg",
-                        });
-                        photo.push(file);
-                    }
-                });
-                if (photo.length > 0) {
-                    await newPost({
-                        variables: {
-                            caption: caption ?? "",
-                            photo
-                        }
-                    });
-                }
+
             }
         } catch (e) {
             console.log("In Caption" + e);
@@ -86,11 +73,9 @@ export default function CaptionScreen({ navigation, route }: UploadStackScreenPr
     }, [loading, isValid]);
 
     return (
-        <Container behavior="padding" keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 0}>
+        <Container behavior="padding" keyboardVerticalOffset={Platform.OS === 'ios' ? 80 : 0}>
             <ScrollView horizontal={true}>{
-                "uri" in photos
-                    ? <Preview source={{ uri: photos.uri }} resizeMode="contain" />
-                    : photos.map(({ uri }, idx) => <Preview source={{ uri }} key={idx} resizeMode="contain" />)
+                photos.map((uri, idx) => <Preview source={{ uri }} key={idx} resizeMode="cover" />)
             }</ScrollView>
             <Controller
                 control={control}
@@ -102,6 +87,7 @@ export default function CaptionScreen({ navigation, route }: UploadStackScreenPr
                         autoFocus
                         autoCapitalize={"none"}
                         autoCorrect={false}
+                        contextMenuHidden
                         placeholderTextColor={"rgb(142,142,142)"}
                         value={value}
                         onChangeText={onChange}
@@ -115,6 +101,9 @@ export default function CaptionScreen({ navigation, route }: UploadStackScreenPr
 
 const Container = styled.KeyboardAvoidingView`
     flex: 1;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
 `;
 const Preview = styled.Image`
     width: ${Layout.window.width + "px"};
@@ -125,6 +114,7 @@ const Preview = styled.Image`
 const CaptionInput = styled.TextInput`
     width: 100%;
     min-height: 100px;
+    background-color: ${({ theme }) => theme.colors.bar};
     color: ${({ theme }) => theme.colors.text};
     font-size: 18px;
     font-weight: 600;

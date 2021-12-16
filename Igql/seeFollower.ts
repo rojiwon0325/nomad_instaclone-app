@@ -15,6 +15,7 @@ export interface seeFollower_seeFollower {
   isMe: boolean | null;
   isFollowing: boolean | null;
   isRequesting: boolean | null;
+  isRequested: boolean | null;
 }
 
 export interface seeFollower {

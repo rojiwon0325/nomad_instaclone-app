@@ -14,8 +14,8 @@ export default function AuthNavigator() {
     <Stack.Navigator initialRouteName={login ? "Root" : "SignIn"} screenOptions={{ headerShown: false, animation: "none" }}>
       <Stack.Screen name="Root" component={RootNavigator} />
       <Stack.Screen name="SignIn" component={SignInScreen} />
-      <Stack.Screen name="NotFound" component={SignInScreen} />
       <Stack.Screen name="SignUp" component={SignUpScreen} options={{ presentation: "card" }} />
+      <Stack.Screen name="NotFound" component={SignInScreen} />
     </Stack.Navigator>
   );
 }

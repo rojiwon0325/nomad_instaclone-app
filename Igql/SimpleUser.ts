@@ -15,4 +15,5 @@ export interface SimpleUser {
   isMe: boolean | null;
   isFollowing: boolean | null;
   isRequesting: boolean | null;
+  isRequested: boolean | null;
 }

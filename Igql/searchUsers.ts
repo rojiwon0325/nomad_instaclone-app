@@ -15,6 +15,7 @@ export interface searchUsers_searchUsers {
   isMe: boolean | null;
   isFollowing: boolean | null;
   isRequesting: boolean | null;
+  isRequested: boolean | null;
 }
 
 export interface searchUsers {

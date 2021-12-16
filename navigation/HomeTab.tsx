@@ -5,22 +5,42 @@ import { HomeTabParamList, RootStackScreenProps } from "types";
 import { MainScreen, SearchScreen } from '@screens';
 import { Avatar, Logo } from '@components';
 import styled from 'styled-components/native';
-import { useQuery } from '@apollo/client';
+import { useApolloClient, useQuery } from '@apollo/client';
 import { getMe } from '@Igql/getMe';
 import { GETME_QUERY } from '@constants/query/account';
 import ProfileNavigator from './ProfileStack';
 import { View } from 'react-native';
+import { logout } from '@constants/ApolloClient';
 
 const Tab = createBottomTabNavigator<HomeTabParamList>();
 
 export default function HomeTabNavigator({ navigation }: RootStackScreenProps<"Home">) {
     const { data } = useQuery<getMe>(GETME_QUERY);
+    const client = useApolloClient();
     return (
         <Tab.Navigator initialRouteName="Main" screenOptions={{ tabBarShowLabel: false, headerTitle: () => null }}>
             <Tab.Screen
                 name="Main"
                 component={MainScreen}
-                options={{ headerLeft: () => <LogoWrap><Logo /></LogoWrap>, headerRightContainerStyle: { paddingRight: 15 }, headerRight: () => <Touch onPress={() => navigation.navigate("DC")}><Plane name="paper-plane-outline" size={25} /></Touch>, tabBarIcon: (props) => <TabBarIcon name='home' props={props} /> }}
+                options={{
+                    headerLeft: () => <LogoWrap><Logo /></LogoWrap>,
+                    headerRight: () => (
+                        <View style={{ flexDirection: "row" }}>
+                            <Touch onPress={() => navigation.navigate("DC")}>
+                                <Ion name="paper-plane-outline" size={25} />
+                            </Touch>
+                            <Touch onPress={async () => {
+                                await logout();
+                                client.refetchQueries({
+                                    include: [GETME_QUERY]
+                                });
+                            }}>
+                                <Ion name="ellipsis-horizontal" size={25} />
+                            </Touch>
+                        </View>
+                    ),
+                    tabBarIcon: (props) => <TabBarIcon name='home' props={props} />
+                }}
             />
             <Tab.Screen
                 name="Search"
@@ -41,7 +61,30 @@ export default function HomeTabNavigator({ navigation }: RootStackScreenProps<"H
             <Tab.Screen
                 name="MyProfile"
                 component={ProfileNavigator}
-                options={{ headerShown: true, headerLeft: () => <LogoWrap><Logo /></LogoWrap>, headerRightContainerStyle: { paddingRight: 15 }, headerRight: () => <Plane name="paper-plane-outline" size={25} />, tabBarIcon: (props) => data?.getMe ? <TabWrap><Avatar avatarUrl={data.getMe.avatarUrl} /></TabWrap> : <TabBarIcon name='person' props={props} /> }}
+                options={{
+                    headerShown: true,
+                    headerLeft: () => (
+                        <LogoWrap>
+                            <Logo />
+                        </LogoWrap>
+                    ),
+                    headerRight: () => (
+                        <View style={{ flexDirection: "row" }}>
+                            <Touch onPress={() => navigation.navigate("DC")}>
+                                <Ion name="paper-plane-outline" size={25} />
+                            </Touch>
+                            <Touch onPress={async () => {
+                                await logout();
+                                client.refetchQueries({
+                                    include: [GETME_QUERY]
+                                });
+                            }}>
+                                <Ion name="ellipsis-horizontal" size={25} />
+                            </Touch>
+                        </View>
+                    ),
+                    tabBarIcon: (props) => data?.getMe ? <TabWrap><Avatar avatarUrl={data.getMe.avatarUrl} /></TabWrap> : <TabBarIcon name='person' props={props} />
+                }}
             />
         </Tab.Navigator>
     );
@@ -69,8 +112,10 @@ const TabWrap = styled.View`
     align-items: center;
     justify-content: center;
 `;
-const Touch = styled.TouchableOpacity``;
+const Touch = styled.TouchableOpacity`
+    margin-right: 15px;
+`;
 
-const Plane = styled(Ionicons)`
+const Ion = styled(Ionicons)`
     color: ${({ theme }) => theme.colors.text};
 `;

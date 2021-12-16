@@ -29,5 +29,6 @@ export interface User {
   isMe: boolean | null;
   isFollowing: boolean | null;
   isRequesting: boolean | null;
+  isRequested: boolean | null;
   profile: User_profile | null;
 }

@@ -12,13 +12,14 @@ import useDateCalc from '@hooks/useDateCalc';
 const Swiper = Platform.OS !== "web" ? require("react-native-swiper") : null;
 
 const Post: React.FC<{ data: seePost_seePost }> = ({ data: { id, photo, detail, _count } }) => {
-    const [captionMore, setMore] = useState(false);
     const navigation = useNavigation();
     const WIDTH = useWindowDimensions().width;
     if (detail === null || _count === null) {
         return null;
     }
     const { account, avatarUrl, caption, createdAt, isLiked } = detail;
+    const [captionMore, setMore] = useState(false);
+    const [captions] = useState(caption.split(/\n|\r/));
     const date = useDateCalc(createdAt);
     const { like, comment } = _count;
 
@@ -49,10 +50,10 @@ const Post: React.FC<{ data: seePost_seePost }> = ({ data: { id, photo, detail, 
                         <User account={account} />
                         &nbsp;
                         {
-                            captionMore ? caption : caption.slice(0, 10)
+                            captionMore ? caption : captions[0].slice(0, 10)
                         }
                         {
-                            caption.length > 10 && !captionMore
+                            !captionMore && (captions.length > 1 || caption.length > 10)
                                 ? <MoreBtn activeOpacity={0} onPress={() => setMore(true)}><More>...더보기</More></MoreBtn>
                                 : null
                         }

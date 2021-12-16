@@ -31,9 +31,11 @@ export default function SelectScreen({ navigation }: UploadStackScreenProps<"Sel
             getPhoto();
         }
         navigation.setOptions({
-            headerRight: () => <CaptionBtn onPress={() => {
+            headerRight: () => <CaptionBtn onPress={async () => {
                 if (selected.length > 0) {
-                    navigation.navigate("Caption", { photos: selected });
+                    const infos = await Promise.all(selected.map(asset => MediaLibrary.getAssetInfoAsync(asset)));
+                    const photo = infos.map(info => info.localUri ?? "");
+                    navigation.navigate("Caption", { photos: photo.filter(uri => uri !== "") });
                 } else {
                     Alert.alert("사진을 한장 이상 선택해주세요.");
                 }
@@ -78,7 +80,7 @@ const Preview: React.FC<{ uri: string }> = ({ uri, children }) => {
     if (uri === "") {
         return <View style={{ aspectRatio: 1, width: "100%", backgroundColor: "black", position: "relative" }}>{children}</View>;
     }
-    return <View style={{ position: "relative" }}><Image resizeMode="contain" style={{ aspectRatio: 1, width: "100%", backgroundColor: "black" }} source={{ uri }} />{children}</View>;
+    return <View style={{ position: "relative" }}><Image resizeMode="cover" style={{ aspectRatio: 1, width: "100%", backgroundColor: "black" }} source={{ uri }} />{children}</View>;
 }
 
 const CheckBox = styled.View`
