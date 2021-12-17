@@ -17,7 +17,7 @@ export interface User_profile__count {
 export interface User_profile {
   __typename: "Profile";
   isPublic: boolean;
-  bio: string[];
+  bio: string;
   _count: User_profile__count | null;
 }
 

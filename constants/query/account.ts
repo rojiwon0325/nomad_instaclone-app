@@ -36,7 +36,7 @@ export const USER_FRAGMENT = gql`
 `;
 
 export const CHAT_FRAGMENT = gql`
-    fragment CHAT on Chat{
+    fragment Chat on Chat{
         id
         text
         read
@@ -55,7 +55,7 @@ export const CHATROOM_FRAGMENT = gql`
             avatarUrl
         }
         chat{
-            ...CHAT
+            ...Chat
         }
         updatedAt
     }
@@ -159,20 +159,35 @@ export const SEARCHUSERS_QUERY = gql`
     ${SIMPLEUSER_FRAGMENT}
 `;
 
-export const SEEROOMLIST_QUERY = gql`
-    query seeRoomList($offset:Int){
-        seeRoomList(offset: $offset){
-            ...ChatRoom
-        }
-    }
-    ${CHATROOM_FRAGMENT}
-`;
-
 export const RESPONSEFOLLOW_MUTATION = gql`
     mutation responseFollow($account:String! $accept: Boolean!){
         responseFollow(account: $account, accept: $accept) {
             ok
             error
         }
+    }
+`;
+
+export const SEEROOMLIST_QUERY = gql`
+    query seeRoomList($cursor:Int){
+        seeRoomList(cursor: $cursor){
+            ...ChatRoom
+        }
+    }
+    ${CHATROOM_FRAGMENT}
+`;
+
+export const SEEROOM_QUERY = gql`
+    query seeRoom($roomId:Int! $cursor:Int){
+        seeRoom(roomId:$roomId cursor: $cursor){
+            ...ChatRoom
+        }
+    }
+    ${CHATROOM_FRAGMENT}
+`;
+
+export const FINDORCREATEROOM_QUERY = gql`
+    query findOrCreateRoom($account:String!){
+        findOrCreateRoom(account: $account)
     }
 `;

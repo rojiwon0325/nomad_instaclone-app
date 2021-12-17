@@ -17,7 +17,7 @@ export interface seeProfile_seeProfile_profile__count {
 export interface seeProfile_seeProfile_profile {
   __typename: "Profile";
   isPublic: boolean;
-  bio: string[];
+  bio: string;
   _count: seeProfile_seeProfile_profile__count | null;
 }
 

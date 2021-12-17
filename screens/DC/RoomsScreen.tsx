@@ -16,7 +16,7 @@ export default function RoomsScreen({ navigation }: DCStackScreenProps<"Rooms">)
             renderItem={({ item }) => <RowUser navigation={navigation} room={item} />}
             refreshing={loading}
             onRefresh={() => refetch()}
-            onEndReached={() => data?.seeRoomList ? fetchMore({ variables: { offset: data.seeRoomList.length } }) : null}
+            onEndReached={() => data?.seeRoomList ? fetchMore({ variables: { curosr: data.seeRoomList[data.seeRoomList.length - 1].id } }) : null}
         />
     );
 };

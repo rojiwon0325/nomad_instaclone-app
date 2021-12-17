@@ -6,9 +6,6 @@
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { CompositeScreenProps, NavigatorScreenParams } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { CameraCapturedPicture } from 'expo-camera';
-
-import * as MediaLibrary from "expo-media-library";
 
 declare global {
   namespace ReactNavigation {
@@ -46,7 +43,7 @@ export type HomeTabParamList = {
   Main: undefined;
   Search: undefined;
   UploadFake: undefined;
-  MyProfile: NavigatorScreenParams<MyProfileStackParamList> | undefined;
+  MyProfile: undefined;
 };
 
 export type HomeTabScreenProps<Screen extends keyof HomeTabParamList> = CompositeScreenProps<
@@ -55,7 +52,7 @@ export type HomeTabScreenProps<Screen extends keyof HomeTabParamList> = Composit
 >;
 
 export type ProfileStackParamList = {
-  Main: { account: string };
+  Main: { account: string } | undefined;
   Follower: { account: string };
   Following: { account: string };
   Feed: { account: string, initialScrollIndex?: number };
@@ -65,19 +62,6 @@ export type ProfileStackScreenProps<Screen extends keyof ProfileStackParamList> 
   ProfileStackParamList,
   Screen
 >;
-
-export type MyProfileStackParamList = {
-  Main: undefined;
-  Follower: { account: string };
-  Following: { account: string };
-  Feed: { account: string, initialScrollIndex?: number };
-};
-
-export type MyProfileStackScreenProps<Screen extends keyof MyProfileStackParamList> = NativeStackScreenProps<
-  MyProfileStackParamList,
-  Screen
->;
-
 
 export type UploadStackParamList = {
   Select: undefined;
@@ -92,7 +76,7 @@ export type UploadStackScreenProps<Screen extends keyof UploadStackParamList> = 
 
 export type DCStackParamList = {
   Rooms: undefined;
-  Chat: { roomId: number } | { account: string };
+  Chat: { roomId: number };
 };
 
 export type DCStackScreenProps<Screen extends keyof DCStackParamList> = NativeStackScreenProps<

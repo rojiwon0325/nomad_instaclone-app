@@ -62,6 +62,13 @@ export const cache = new InMemoryCache({
         User: {
             keyFields: (obj) => `${obj.__typename}:${obj.account}`,
         },
+        ChatRoom: {
+            fields: {
+                chat: {
+                    merge: (exi = [], inc = []) => filtering([...exi, ...inc]),
+                }
+            }
+        },
         Query: {
             fields: {
                 seePost: {

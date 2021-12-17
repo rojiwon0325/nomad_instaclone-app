@@ -5,18 +5,16 @@ import { HomeTabParamList, RootStackScreenProps } from "types";
 import { MainScreen, SearchScreen } from '@screens';
 import { Avatar, Logo } from '@components';
 import styled from 'styled-components/native';
-import { useApolloClient, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { getMe } from '@Igql/getMe';
 import { GETME_QUERY } from '@constants/query/account';
-import ProfileNavigator from './ProfileStack';
 import { View } from 'react-native';
-import { logout } from '@constants/ApolloClient';
+import ProfileNavigator from './ProfileStack';
 
 const Tab = createBottomTabNavigator<HomeTabParamList>();
 
 export default function HomeTabNavigator({ navigation }: RootStackScreenProps<"Home">) {
     const { data } = useQuery<getMe>(GETME_QUERY);
-    const client = useApolloClient();
     return (
         <Tab.Navigator initialRouteName="Main" screenOptions={{ tabBarShowLabel: false, headerTitle: () => null }}>
             <Tab.Screen
@@ -25,17 +23,9 @@ export default function HomeTabNavigator({ navigation }: RootStackScreenProps<"H
                 options={{
                     headerLeft: () => <LogoWrap><Logo /></LogoWrap>,
                     headerRight: () => (
-                        <View style={{ flexDirection: "row" }}>
+                        <View style={{ flexDirection: "row", paddingHorizontal: 5 }}>
                             <Touch onPress={() => navigation.navigate("DC")}>
                                 <Ion name="paper-plane-outline" size={25} />
-                            </Touch>
-                            <Touch onPress={async () => {
-                                await logout();
-                                client.refetchQueries({
-                                    include: [GETME_QUERY]
-                                });
-                            }}>
-                                <Ion name="ellipsis-horizontal" size={25} />
                             </Touch>
                         </View>
                     ),
@@ -62,28 +52,8 @@ export default function HomeTabNavigator({ navigation }: RootStackScreenProps<"H
                 name="MyProfile"
                 component={ProfileNavigator}
                 options={{
-                    headerShown: true,
-                    headerLeft: () => (
-                        <LogoWrap>
-                            <Logo />
-                        </LogoWrap>
-                    ),
-                    headerRight: () => (
-                        <View style={{ flexDirection: "row" }}>
-                            <Touch onPress={() => navigation.navigate("DC")}>
-                                <Ion name="paper-plane-outline" size={25} />
-                            </Touch>
-                            <Touch onPress={async () => {
-                                await logout();
-                                client.refetchQueries({
-                                    include: [GETME_QUERY]
-                                });
-                            }}>
-                                <Ion name="ellipsis-horizontal" size={25} />
-                            </Touch>
-                        </View>
-                    ),
-                    tabBarIcon: (props) => data?.getMe ? <TabWrap><Avatar avatarUrl={data.getMe.avatarUrl} /></TabWrap> : <TabBarIcon name='person' props={props} />
+                    headerShown: false,
+                    tabBarIcon: (props) => data?.getMe ? <TabWrap><AvatarWrap focused={props.focused}><Avatar avatarUrl={data.getMe.avatarUrl} /></AvatarWrap></TabWrap> : <TabBarIcon name='person' props={props} />
                 }}
             />
         </Tab.Navigator>
@@ -112,6 +82,12 @@ const TabWrap = styled.View`
     align-items: center;
     justify-content: center;
 `;
+
+const AvatarWrap = styled.View<{ focused: boolean }>`
+    border-radius: 100px;
+    border: 2px solid ${({ theme, focused }) => focused ? theme.colors.primary : "transparent"};
+`;
+
 const Touch = styled.TouchableOpacity`
     margin-right: 15px;
 `;

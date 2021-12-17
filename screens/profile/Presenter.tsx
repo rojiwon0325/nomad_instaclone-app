@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { seeProfile, seeProfile_seeProfile, seeProfile_seeProfile_profile, seeProfile_seeProfile_profile__count } from "@Igql/seeProfile";
+import React from "react";
+import { seeProfile } from "@Igql/seeProfile";
 import { FlatList } from "react-native";
 import styled from "styled-components/native";
 import { seeFeed, seeFeed_seeFeed } from '@Igql/seeFeed';
@@ -7,16 +7,17 @@ import { Avatar, BlueBtn, Feed, MarginH, MarginV } from "@components";
 import { ApolloQueryResult, OperationVariables, useMutation, useQuery } from "@apollo/client";
 import { SEEFEED_QUERY } from "@constants/query/post";
 import { useNavigation } from "@react-navigation/native";
-import { MyProfileStackParamList, ProfileStackParamList } from "types";
+import { ProfileStackParamList } from "types";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import ReqBanner from "./ReqBanner";
 import { getMe } from "@Igql/getMe";
 import { DELETEFOLLOWING_MUTATION, REQUESTFOLLOW_MUTATION } from "@constants/query/account";
 import { requestFollow } from "@Igql/requestFollow";
 import { deleteFollowing } from "@Igql/deleteFollowing";
+import { User, User_profile } from "@Igql/User";
 
-const Presenter: React.FC<{ seeProfile: seeProfile_seeProfile, refetch: (variables?: Partial<OperationVariables> | undefined) => Promise<ApolloQueryResult<seeProfile | getMe>> }> = ({ seeProfile, refetch }) => {
-    const navigation = useNavigation<NativeStackNavigationProp<ProfileStackParamList | MyProfileStackParamList, "Main">>();
+const Presenter: React.FC<{ seeProfile: User, refetch: (variables?: Partial<OperationVariables> | undefined) => Promise<ApolloQueryResult<seeProfile | getMe>> }> = ({ seeProfile, refetch }) => {
+    const navigation = useNavigation<NativeStackNavigationProp<ProfileStackParamList, "Main" | "MyProfile">>();
     const { data } = useQuery<seeFeed>(SEEFEED_QUERY, { variables: { account: seeProfile.account } });
     const { avatarUrl, username, isMe, profile, account, isFollowing, isRequesting, isRequested } = seeProfile;
 
@@ -41,7 +42,7 @@ const Presenter: React.FC<{ seeProfile: seeProfile_seeProfile, refetch: (variabl
                     id: `User:${account}`,
                     fields: {
                         isFollowing: () => false,
-                        profile: (prev: seeProfile_seeProfile_profile) => ({
+                        profile: (prev: User_profile) => ({
                             ...prev,
                             _count: prev._count ? { ...prev._count, follower: prev._count.follower - 1 } : null
                         }),
@@ -79,7 +80,7 @@ const Presenter: React.FC<{ seeProfile: seeProfile_seeProfile, refetch: (variabl
                         </Top>
                         <Mid>
                             <Username>{username}</Username>
-                            <Bio>{profile?.bio?.join("\n")}</Bio>
+                            <Bio>{profile?.bio ?? ""}</Bio>
                         </Mid>
                         <Bot>
                             {isMe ?

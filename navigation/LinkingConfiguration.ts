@@ -19,9 +19,8 @@ const linking: LinkingOptions<AuthStackParamList> = {
                   Following: "following",
                   Feed: "feed"
                 }
-              },
-              UploadFake: 'uploadfake',
-            },
+              }
+            }
           },
           Like: 'like',
           Comment: 'comment',

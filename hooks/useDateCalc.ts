@@ -6,32 +6,14 @@ export default function useDateCalc(date: string): string {
     useEffect(() => {
         const now = new Date(Date.now());
         const time = new Date(parseInt(date));
-        const year = now.getFullYear() - time.getFullYear();
         const month = now.getMonth() - time.getMonth();
         const day = now.getDate() - time.getDate();
         const hour = now.getHours() - time.getHours();
         const minute = now.getMinutes() - time.getMinutes();
         const seconds = now.getSeconds() - time.getSeconds();
 
-        if (year > 1) {
-            if (month >= 0) {
-                setResult(year + "년 전");
-            } else {
-                setResult((year - 1) + "년 전");
-            }
-        } else if (year === 1) {
-            if (month >= 0) {
-                setResult(year + "년 전");
-            } else {
-                setResult((month + 12) + "달 전");
-            }
-
-        } else if (month > 1) {
-            if (day >= 0) {
-                setResult(month + "달 전");
-            } else {
-                setResult((month - 1) + "달 전");
-            }
+        if (month > 1) {
+            setResult(time.toLocaleDateString("ko-KR", { year: "numeric", month: "numeric", day: "numeric" }));
         } else if (month === 1) {
             if (day >= 0) {
                 setResult(month + "달 전");

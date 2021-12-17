@@ -1,26 +1,28 @@
 import { useQuery } from '@apollo/client';
-import { SEEPROFILE_QUERY } from '@constants/query/account';
+import { GETME_QUERY, SEEPROFILE_QUERY } from '@constants/query/account';
+import { getMe } from '@Igql/getMe';
 import { seeProfile } from '@Igql/seeProfile';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { ActivityIndicator, Alert } from 'react-native';
 import { ProfileStackScreenProps } from 'types';
 import Presenter from './Presenter';
 
-export default function ProfileScreen({ navigation, route }: ProfileStackScreenProps<"Main">) {
-    const { params: { account } } = route;
-    const { data, refetch } = useQuery<seeProfile>(SEEPROFILE_QUERY, { skip: account === "", variables: { account } });
+export default function ProfileScreen({ route }: ProfileStackScreenProps<"Main">) {
+    const { params } = route;
 
-    if (account === "") {
-        Alert.alert("존재하지 않는 계정입니다.");
+    const { data, refetch } = useQuery<seeProfile>(SEEPROFILE_QUERY, { skip: params === undefined, variables: { account: params?.account ?? "" } });
+    const { data: MyData, refetch: refetchGetMe } = useQuery<getMe>(GETME_QUERY, { skip: params !== undefined });
+
+    if (data?.seeProfile === null || MyData?.getMe === null) {
+        Alert.alert("정보를 불러오는데 실패했습니다.");
         return null;
     }
-
-    if (!data) {
-        return <ActivityIndicator />
-    } else if (!data.seeProfile) {
-        Alert.alert("존재하지 않는 계정입니다.");
-        return null;
+    if (data?.seeProfile) {
+        return (<Presenter seeProfile={data.seeProfile} refetch={refetch} />);
+    } else if (MyData?.getMe) {
+        return (<Presenter seeProfile={MyData.getMe} refetch={refetchGetMe} />);
+    } else {
+        return <ActivityIndicator />;
     }
 
-    return (<Presenter seeProfile={data.seeProfile} refetch={refetch} />);
 };

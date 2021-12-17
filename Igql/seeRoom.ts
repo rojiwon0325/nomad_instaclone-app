@@ -4,17 +4,17 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: seeRoomList
+// GraphQL query operation: seeRoom
 // ====================================================
 
-export interface seeRoomList_seeRoomList_user {
+export interface seeRoom_seeRoom_user {
   __typename: "User";
   account: string;
   username: string;
   avatarUrl: string;
 }
 
-export interface seeRoomList_seeRoomList_chat {
+export interface seeRoom_seeRoom_chat {
   __typename: "Chat";
   id: number;
   text: string;
@@ -24,18 +24,19 @@ export interface seeRoomList_seeRoomList_chat {
   createdAt: string;
 }
 
-export interface seeRoomList_seeRoomList {
+export interface seeRoom_seeRoom {
   __typename: "ChatRoom";
   id: number;
-  user: seeRoomList_seeRoomList_user[];
-  chat: seeRoomList_seeRoomList_chat[];
+  user: seeRoom_seeRoom_user[];
+  chat: seeRoom_seeRoom_chat[];
   updatedAt: string;
 }
 
-export interface seeRoomList {
-  seeRoomList: seeRoomList_seeRoomList[];
+export interface seeRoom {
+  seeRoom: seeRoom_seeRoom | null;
 }
 
-export interface seeRoomListVariables {
+export interface seeRoomVariables {
+  roomId: number;
   cursor?: number | null;
 }

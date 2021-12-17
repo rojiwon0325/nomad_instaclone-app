@@ -4,15 +4,13 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL fragment: Chat
+// GraphQL query operation: findOrCreateRoom
 // ====================================================
 
-export interface Chat {
-  __typename: "Chat";
-  id: number;
-  text: string;
-  read: boolean;
-  roomId: number;
+export interface findOrCreateRoom {
+  findOrCreateRoom: number | null;
+}
+
+export interface findOrCreateRoomVariables {
   account: string;
-  createdAt: string;
 }
