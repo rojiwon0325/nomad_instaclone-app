@@ -12,6 +12,7 @@ import _MarginH from "./MarginH";
 import _MarginV from "./MarginV";
 import _SearchBar from "./SearchBar";
 import _HeaderBack from "./HeaderBack";
+import _BottomInput from "./BottomInput";
 
 export const BlueBtn = _BlueBtn;
 
@@ -40,3 +41,5 @@ export const MarginV = _MarginV;
 export const SearchBar = _SearchBar;
 
 export const HeaderBack = _HeaderBack;
+
+export const BottomInput = _BottomInput;

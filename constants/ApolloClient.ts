@@ -1,11 +1,12 @@
-import { ApolloClient, InMemoryCache, makeVar } from "@apollo/client";
+import { ApolloClient, InMemoryCache, makeVar, split } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getMe_getMe } from "@Igql/getMe";
 import { onError } from "@apollo/client/link/error";
 import { createUploadLink } from "apollo-upload-client";
+import { WebSocketLink } from "@apollo/client/link/ws";
 import _ from "lodash";
-import { GETME_QUERY } from "./query/account";
+import { getMainDefinition } from "@apollo/client/utilities";
 
 
 const TOKEN = 'jwt';
@@ -28,6 +29,16 @@ export const logout = async () => {
         client.clearStore()
     ]);
 };
+
+const wsLink = new WebSocketLink({
+    uri: 'ws://localhost:4000/graphql',
+    options: {
+        reconnect: true,
+        connectionParams: () => ({
+            jwt: jwToken(),
+        })
+    }
+});
 
 const uploadHttpLink = createUploadLink({
     uri: 'http://localhost:4000/graphql'
@@ -108,9 +119,21 @@ export const cache = new InMemoryCache({
 
     }
 });
+const httpLink = authLink.concat(onErrorLink).concat(uploadHttpLink);
+const splitLink = split(
+    ({ query }) => {
+        const definition = getMainDefinition(query);
+        return (
+            definition.kind === "OperationDefinition" &&
+            definition.operation === "subscription"
+        );
+    },
+    wsLink,
+    httpLink
+);
 
 const client = new ApolloClient({
-    link: authLink.concat(onErrorLink).concat(uploadHttpLink),
+    link: splitLink,
     cache
 });
 

@@ -62,6 +62,15 @@ export const CHATROOM_FRAGMENT = gql`
     ${CHAT_FRAGMENT}
 `;
 
+export const ROOMUPDATE_SUB = gql`
+    subscription roomUpdate($roomId: Int!){
+        roomUpdate(roomId: $roomId){
+            ...Chat
+        }
+    }
+    ${CHAT_FRAGMENT}
+`;
+
 export const LOGIN_MUTATION = gql`
     mutation login($account:String! $password:String!){
         login(account: $account password:$password){
@@ -191,3 +200,4 @@ export const FINDORCREATEROOM_QUERY = gql`
         findOrCreateRoom(account: $account)
     }
 `;
+

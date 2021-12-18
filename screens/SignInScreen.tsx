@@ -58,7 +58,7 @@ export default function SignInScreen({ navigation, route: { params } }: AuthStac
                     <AuthInput placeholder="사용자 계정"
                         autoFocus
                         ref={first}
-                        autoCapitalize={"none"}
+                        autoCapitalize="none"
                         autoCorrect={false}
                         placeholderTextColor={"rgb(142,142,142)"}
                         returnKeyType="next"

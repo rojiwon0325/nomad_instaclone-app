@@ -36,12 +36,13 @@ const ChatBubble: React.FC<{ chats: seeRoom_seeRoom_chat[], isMe: boolean }> = (
 export default ChatBubble;
 
 const Container = styled.View<{ isMe: boolean }>`
-    flex: 1;
+    width: 100%;
     flex-direction: row;
-    align-items: flex-end;
+    align-items: flex-start;
     justify-content: ${({ isMe }) => isMe ? "flex-end" : "flex-start"};
     padding-left: ${({ isMe }) => isMe ? "90px" : "10px"};
     padding-right: ${({ isMe }) => isMe ? "10px" : "90px"};
+    padding-bottom: 5px;
 `;
 
 const AvatarWrap = styled.View`
