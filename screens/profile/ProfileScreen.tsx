@@ -7,7 +7,7 @@ import { ActivityIndicator, Alert } from 'react-native';
 import { ProfileStackScreenProps } from 'types';
 import Presenter from './Presenter';
 
-export default function ProfileScreen({ route }: ProfileStackScreenProps<"Main">) {
+export default function ProfileScreen({ navigation, route }: ProfileStackScreenProps<"Main">) {
     const { params } = route;
 
     const { data, refetch } = useQuery<seeProfile>(SEEPROFILE_QUERY, { skip: params === undefined, variables: { account: params?.account ?? "" } });
@@ -18,9 +18,9 @@ export default function ProfileScreen({ route }: ProfileStackScreenProps<"Main">
         return null;
     }
     if (data?.seeProfile) {
-        return (<Presenter seeProfile={data.seeProfile} refetch={refetch} />);
+        return (<Presenter seeProfile={data.seeProfile} refetch={refetch} navigation={navigation} />);
     } else if (MyData?.getMe) {
-        return (<Presenter seeProfile={MyData.getMe} refetch={refetchGetMe} />);
+        return (<Presenter seeProfile={MyData.getMe} refetch={refetchGetMe} navigation={navigation} />);
     } else {
         return <ActivityIndicator />;
     }

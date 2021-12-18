@@ -94,7 +94,7 @@ export default function SignInScreen({ navigation }: NativeStackScreenProps<Auth
                 )}
             />
             <Margin />
-            <BlueBtn disabled={!isValid || loading} loading={loading} onPress={handleSubmit(variables => { setLoad(true); join({ variables }); })}>
+            <BlueBtn disabled={!isValid || loading} loading={loading} onPress={handleSubmit(async (variables) => { setLoad(true); await join({ variables }); })}>
                 회원가입
             </BlueBtn>
             <Margin />

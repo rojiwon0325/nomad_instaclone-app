@@ -6,14 +6,19 @@ import { HeaderBack } from '@components';
 
 const Stack = createNativeStackNavigator<DCStackParamList>();
 
-export default function DCNavigator({ navigation }: RootStackScreenProps<"DC">) {
+export default function DCNavigator({ navigation, route }: RootStackScreenProps<"DC">) {
 
     return (
         <Stack.Navigator initialRouteName="Rooms" screenOptions={{ headerShown: true, headerBackTitleVisible: false }}>
             <Stack.Screen name="Rooms" component={RoomsScreen} options={{
+                title: "Direct Chat",
                 headerLeft: () => <HeaderBack canGoBack={navigation.canGoBack()} goBack={navigation.goBack} />
             }} />
-            <Stack.Screen name="Chat" component={ChatScreen} />
+            <Stack.Screen name="Chat" component={ChatScreen}
+                options={{
+                    headerLeft: () => <HeaderBack canGoBack={navigation.canGoBack()} goBack={navigation.goBack} />
+                }}
+            />
         </Stack.Navigator>
     );
 }

@@ -10,12 +10,16 @@ const RowUser: React.FC<{ navigation: NativeStackNavigationProp<DCStackParamList
     const { id, user, chat, updatedAt } = room;
     const date = useDateCalc(updatedAt);
     return (
-        <Container onPress={() => navigation.navigate("Chat", { roomId: id })}>
+        <Container onPress={() => navigation.navigate("Chat", { roomId: id, account: user[0].account })}>
             <Avatar avatarUrl={user[0].avatarUrl} />
             <MarginH size="10px" />
             <Info>
                 <Username numberOfLines={1} ellipsizeMode="tail">{user.map(elem => elem.username).join('·')}</Username>
-                <Message numberOfLines={1} ellipsizeMode="tail">{chat[chat.length - 1].text}</Message>
+                <Message numberOfLines={1} ellipsizeMode="tail">{
+                    chat[0].account === user[0].account
+                        ? chat[0].text
+                        : "보낸 문자"
+                }</Message>
             </Info>
             <MarginH size="10px" />
             <Message>{date}</Message>

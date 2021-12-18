@@ -89,7 +89,7 @@ export default function SignInScreen({ navigation, route: { params } }: AuthStac
                 )}
             />
             <Margin />
-            <BlueBtn disabled={!isValid || loading} loading={loading} onPress={handleSubmit(variables => { setLoad(true); login({ variables }); })}>
+            <BlueBtn disabled={!isValid || loading} loading={loading} onPress={handleSubmit(async (variables) => { setLoad(true); await login({ variables }); })}>
                 로그인
             </BlueBtn>
             <Margin />

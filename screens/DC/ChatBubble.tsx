@@ -17,9 +17,9 @@ const ChatBubble: React.FC<{ chats: seeRoom_seeRoom_chat[], isMe: boolean }> = (
             }
             <Bubble isMe={isMe}>
                 {chats.map((chat, idx) => (
-                    <MessageWrap>
+                    <MessageWrap key={`chat:${chat.id}`}>
                         {isMe && chats.length - 1 === idx && <CreatedAt>{ChatDate}</CreatedAt>}
-                        <Message isMe={isMe} key={`chat:${chat.id}`}>
+                        <Message isMe={isMe}>
                             <Text>{chat.text}</Text>
                         </Message>
                         {!isMe && chats.length - 1 === idx && <CreatedAt>{ChatDate}</CreatedAt>}

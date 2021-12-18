@@ -31,7 +31,7 @@ export type RootStackParamList = {
   Comment: { postId: number };
   Profile: NavigatorScreenParams<ProfileStackParamList> | undefined;
   Upload: undefined;
-  DC: undefined;
+  DC: NavigatorScreenParams<DCStackParamList> | undefined;
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> = NativeStackScreenProps<
@@ -76,7 +76,7 @@ export type UploadStackScreenProps<Screen extends keyof UploadStackParamList> = 
 
 export type DCStackParamList = {
   Rooms: undefined;
-  Chat: { roomId: number };
+  Chat: { roomId: number, account: string };
 };
 
 export type DCStackScreenProps<Screen extends keyof DCStackParamList> = NativeStackScreenProps<

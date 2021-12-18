@@ -1,24 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 import { seeProfile } from "@Igql/seeProfile";
 import { FlatList } from "react-native";
 import styled from "styled-components/native";
 import { seeFeed, seeFeed_seeFeed } from '@Igql/seeFeed';
 import { Avatar, BlueBtn, Feed, MarginH, MarginV } from "@components";
-import { ApolloQueryResult, OperationVariables, useMutation, useQuery } from "@apollo/client";
+import { ApolloQueryResult, OperationVariables, useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import { SEEFEED_QUERY } from "@constants/query/post";
 import { useNavigation } from "@react-navigation/native";
 import { ProfileStackParamList } from "types";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import ReqBanner from "./ReqBanner";
 import { getMe } from "@Igql/getMe";
-import { DELETEFOLLOWING_MUTATION, REQUESTFOLLOW_MUTATION } from "@constants/query/account";
+import { DELETEFOLLOWING_MUTATION, FINDORCREATEROOM_QUERY, REQUESTFOLLOW_MUTATION } from "@constants/query/account";
 import { requestFollow } from "@Igql/requestFollow";
 import { deleteFollowing } from "@Igql/deleteFollowing";
 import { User, User_profile } from "@Igql/User";
+import { findOrCreateRoom } from "@Igql/findOrCreateRoom";
 
-const Presenter: React.FC<{ seeProfile: User, refetch: (variables?: Partial<OperationVariables> | undefined) => Promise<ApolloQueryResult<seeProfile | getMe>> }> = ({ seeProfile, refetch }) => {
-    const navigation = useNavigation<NativeStackNavigationProp<ProfileStackParamList, "Main" | "MyProfile">>();
+interface Props {
+    seeProfile: User;
+    refetch: (variables?: Partial<OperationVariables> | undefined) => Promise<ApolloQueryResult<seeProfile | getMe>>;
+    navigation: NativeStackNavigationProp<ProfileStackParamList, "Main">;
+}
+
+const Presenter: React.FC<Props> = ({ seeProfile, refetch, navigation }) => {
+    const rootNavigation = useNavigation();
     const { data } = useQuery<seeFeed>(SEEFEED_QUERY, { variables: { account: seeProfile.account } });
+    const [QueryStartFn] = useLazyQuery<findOrCreateRoom>(FINDORCREATEROOM_QUERY);
+    const [roomId, setRoomId] = useState<number | undefined>(undefined);
     const { avatarUrl, username, isMe, profile, account, isFollowing, isRequesting, isRequested } = seeProfile;
 
     const [follow, { loading: loadingFollow }] = useMutation<requestFollow>(REQUESTFOLLOW_MUTATION, {
@@ -80,7 +89,7 @@ const Presenter: React.FC<{ seeProfile: User, refetch: (variables?: Partial<Oper
                         </Top>
                         <Mid>
                             <Username>{username}</Username>
-                            <Bio>{profile?.bio ?? ""}</Bio>
+                            <Bio>{profile?.bio}</Bio>
                         </Mid>
                         <Bot>
                             {isMe ?
@@ -104,7 +113,17 @@ const Presenter: React.FC<{ seeProfile: User, refetch: (variables?: Partial<Oper
                                                 >팔로우</BlueBtn></Wrap>
                                     }
                                     <MarginH size="5px" />
-                                    <Btn activeOpacity={1}><BtnText>메시지</BtnText></Btn>
+                                    <Btn activeOpacity={1} onPress={async () => {
+                                        if (!roomId) {
+                                            const { data } = await QueryStartFn({ variables: { account } });
+                                            if (data?.findOrCreateRoom) {
+                                                setRoomId(data.findOrCreateRoom);
+                                                rootNavigation.navigate("DC", { screen: "Chat", params: { roomId: data.findOrCreateRoom, account } });
+                                            }
+                                        } else {
+                                            rootNavigation.navigate("DC", { screen: "Chat", params: { roomId, account } });
+                                        }
+                                    }}><BtnText>메시지</BtnText></Btn>
                                 </>
                             }
                         </Bot>

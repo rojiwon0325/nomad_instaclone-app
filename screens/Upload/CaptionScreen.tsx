@@ -3,7 +3,7 @@ import styled from "styled-components/native";
 import { UploadStackScreenProps } from "types";
 import Layout from "@constants/Layout";
 import { Controller, useForm } from "react-hook-form";
-import { ActivityIndicator, Alert, Platform, ScrollView } from "react-native";
+import { ActivityIndicator, Alert, Platform, ScrollView, View } from "react-native";
 import { useLazyQuery, useMutation } from "@apollo/client";
 import { newPost } from "@Igql/newPost";
 import { NEWPOST_MUTATION, SEEPOST_QUERY } from "@constants/query/post";
@@ -73,37 +73,37 @@ export default function CaptionScreen({ navigation, route }: UploadStackScreenPr
     }, [loading, isValid]);
 
     return (
-        <Container behavior="padding" keyboardVerticalOffset={Platform.OS === 'ios' ? 80 : 0}>
-            <ScrollView horizontal={true}>{
-                photos.map((uri, idx) => <Preview source={{ uri }} key={idx} resizeMode="cover" />)
-            }</ScrollView>
-            <Controller
-                control={control}
-                name="caption"
-                rules={{ required: false }}
-                render={({ field: { onChange, onBlur, value } }) => (
-                    <CaptionInput placeholder="문구 입력..."
-                        multiline
-                        autoFocus
-                        autoCapitalize={"none"}
-                        autoCorrect={false}
-                        contextMenuHidden
-                        placeholderTextColor={"rgb(142,142,142)"}
-                        value={value}
-                        onChangeText={onChange}
-                        onBlur={onBlur}
-                    />
-                )}
-            />
+        <Container behavior="position">
+            <View>
+                <ScrollView horizontal={true}>{
+                    photos.map((uri, idx) => <Preview source={{ uri }} key={idx} resizeMode="cover" />)
+                }</ScrollView>
+                <Controller
+                    control={control}
+                    name="caption"
+                    rules={{ required: false }}
+                    render={({ field: { onChange, onBlur, value } }) => (
+                        <CaptionInput placeholder="문구 입력..."
+                            multiline
+                            autoFocus
+                            autoCapitalize="none"
+                            autoCorrect={false}
+                            contextMenuHidden={false}
+                            placeholderTextColor={"rgb(142,142,142)"}
+                            value={value}
+                            onChangeText={onChange}
+                            onBlur={onBlur}
+                        />
+                    )}
+                />
+            </View>
         </Container>
     );
 };
 
 const Container = styled.KeyboardAvoidingView`
-    flex: 1;
+    padding-bottom: 100px;
     flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
 `;
 const Preview = styled.Image`
     width: ${Layout.window.width + "px"};

@@ -24,6 +24,12 @@ const linking: LinkingOptions<AuthStackParamList> = {
           },
           Like: 'like',
           Comment: 'comment',
+          DC: {
+            screens: {
+              Rooms: "rooms",
+              Chat: "chat"
+            }
+          },
           Upload: {
             screens: {
               Select: "select",
