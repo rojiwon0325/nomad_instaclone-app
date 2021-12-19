@@ -32,7 +32,7 @@ export const logout = async () => {
 };
 
 const wsLink = new WebSocketLink({
-    uri: 'ws://localhost:4000/graphql',
+    uri: 'ws://rojiwon-nomad-instaclone.herokuapp.com/graphql',
     options: {
         reconnect: true,
         connectionParams: () => ({
@@ -42,7 +42,7 @@ const wsLink = new WebSocketLink({
 });
 
 const uploadHttpLink = createUploadLink({
-    uri: 'http://localhost:4000/graphql'
+    uri: 'https://rojiwon-nomad-instaclone.herokuapp.com/graphql'
 });
 
 const onErrorLink = onError(({ graphQLErrors, networkError }) => {
