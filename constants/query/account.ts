@@ -201,3 +201,11 @@ export const FINDORCREATEROOM_QUERY = gql`
     }
 `;
 
+export const SENDCHAT_MUTATION = gql`
+    mutation sendChat($text:String! $roomId:Int $receiver: String){
+        sendChat(text:$text roomId:$roomId receiver:$receiver){
+            ok
+            error
+        }
+    }
+`;

@@ -1,13 +1,19 @@
 import { Ionicons } from "@expo/vector-icons";
 import React, { useRef } from "react";
-import { Platform, TextInput, TextInputProps } from "react-native";
+import { GestureResponderEvent, Platform, TextInput, TextInputProps } from "react-native";
 import styled from "styled-components/native";
 import MarginH from "./MarginH";
 
-const BottomInput: React.FC<{ InputProps: TextInputProps, ref?: React.RefObject<TextInput> }> = ({ InputProps, ref }) => {
+interface Props {
+    InputProps?: TextInputProps;
+    ref?: React.RefObject<TextInput>;
+    onPress?: ((event: GestureResponderEvent) => void) | undefined;
+    disabled?: boolean;
+}
+
+const BottomInput: React.FC<Props> = ({ InputProps, ref, onPress, disabled }) => {
 
     const input = useRef<TextInput>(null);
-
     return (
         <InputWrap>
             <TextInputWrap disabled={Platform.OS === "web"} onPress={() => ref ? ref.current?.focus() : input.current?.focus()} activeOpacity={1}>
@@ -22,7 +28,7 @@ const BottomInput: React.FC<{ InputProps: TextInputProps, ref?: React.RefObject<
                 />
             </TextInputWrap>
             <MarginH size="10px" />
-            <SubmitText>
+            <SubmitText onPress={onPress} disabled={disabled}>
                 <Ion name="send" size={30} />
             </SubmitText>
         </InputWrap>

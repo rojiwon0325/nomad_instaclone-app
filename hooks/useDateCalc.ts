@@ -31,7 +31,7 @@ export default function useDateCalc(date: string): string {
             if (hour >= 0) {
                 setResult(day + "일 전");
             } else {
-                setResult((hour + 60) + "시간 전");
+                setResult((hour + 24) + "시간 전");
             }
 
         } else if (hour > 1) {

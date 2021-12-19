@@ -7,6 +7,7 @@ import { createUploadLink } from "apollo-upload-client";
 import { WebSocketLink } from "@apollo/client/link/ws";
 import _ from "lodash";
 import { getMainDefinition } from "@apollo/client/utilities";
+import { ChatRoom_chat } from "@Igql/ChatRoom";
 
 
 const TOKEN = 'jwt';
@@ -76,7 +77,16 @@ export const cache = new InMemoryCache({
         ChatRoom: {
             fields: {
                 chat: {
-                    merge: (exi = [], inc = []) => filtering([...exi, ...inc]),
+                    merge: (exi: { __ref: string }[] = [], inc: { __ref: string }[] = []) => {
+                        if (exi.length === 0 || inc.length === 0) {
+                            return [...exi, ...inc];
+                        } else if (inc.length === 1 || exi[0].__ref !== inc[1].__ref) {
+                            return filtering([...exi, ...inc]);
+                        } else if (exi[0].__ref === inc[1].__ref) {
+                            return inc;
+                        }
+                        return [...exi, ...inc];
+                    },
                 }
             }
         },
